@@ -5,8 +5,9 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func, inspect
 import json
+from datetime import timedelta
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 engine = create_engine("sqlite:///diseases.sqlite")
 
@@ -18,7 +19,14 @@ Base.prepare(engine, reflect=True)
 
 app = Flask(__name__)
 
-@app.route("/")
+
+@app.route('/')
+def index():
+    return render_template('./index.html')
+
+
+
+@app.route("/list")
 def default():
     # list of unquie disease groups for dropdown
     
@@ -52,85 +60,59 @@ def default():
 
 
 
-@app.route("/api/Othernotifiablediseases")
-def diseasegroups():
+@app.route("/api/<state>/<group>")
+def diseasegroups(state,group):
 
     
     Disease = Base.classes.DiseaseSummary
 
     session = Session(engine)
 
-    results = session.query(Disease).filter(Disease.Location == "WA").filter(Disease.Disease_Group == "Bloodborne diseases")
-    listofdiseases = session.query(Disease.Disease_Name).filter(Disease.Location == "WA").filter(Disease.Disease_Group == "Bloodborne diseases").group_by(Disease.Disease_Name).all()
+    results = session.query(Disease).filter(Disease.Location == state).filter(Disease.Disease_Group == group)
+
+    listofdiseases = session.query(Disease.Disease_Group).filter(Disease.Location == state).group_by(Disease.Disease_Group).all()
     all_names = list(np.ravel(listofdiseases))
 
+    # listofyears = session.query(Disease.Year).filter(Disease.Location == state).filter(Disease.Disease_Group == group).group_by(Disease.Year).all()
+    # all_years = list(np.ravel(listofyears))
 
-
-       
     # inspector = inspect(engine)
     # all_names = inspector.get_table_names()
 
+    # columns = inspector.get_columns('DiseaseSummary')
+    
+    # all_names = []
 
-    # inspector = inspect(engine)
-    # all_names = Base.classes.keys()
+    # for c in columns:
+    #     all_names.append(c['name'])
 
-    # tn = inspector.get_table_names()
 
-    # columns = inspector.get_columns("Othernotifiablediseases")
-    # td = []
-    # for column in columns:
-    #     td.append(column["name"])
+       
 
-    # session.close()
-    # datalist = []
 
-    # datalist.append([result[1] for result in results])
+    session.close()
 
-    # all_names = list(np.ravel(results))
-    # results = session.query(Disease.Location).group_by(Disease.Location).all()
-
-    # session.close()
-
-    # all_names = list(np.ravel(results))
-
-#   "Legionellosis", 
-#   "Leprosy", 
-#   "Meningococcal disease (invasive)", 
-#   "RSV", 
-#   "Tuberculosis", 
-#   "iGAS", 
-#   "Location", 
-#   "Year"
-
+   
 
     
     disease_list = []
 
 
-    disease_dic = {}
-    for name in all_names:
-        disease_dic[name] = [result.Infection_Rate for result in results if result.Disease_Name == name]
-    disease_list.append(disease_dic)
+    
+    for result in results:
+        disease_dic = {}
+        disease_dic["Year"] = result.Year
+        disease_dic["Disease"] = result.Disease_Name
+        disease_dic["Infection_Rate"] = result.Infection_Rate
+        
+        disease_list.append(disease_dic)
   
 
 
-    # disease_dic["Meningococcal disease (invasive)"] = [result.like("%Meningococcal%") for result in results]
-    # for row in results:
-    #     print(row.__dict__)
-        # dd = {k: v for k,v in d.items() if not k.startswith('_')}
-
-
-        # disease_list.append(d)
-
-    # dies = []
-    # for i in td:
-    #     for j in results:
-    #         ddi = {}
-    #         ddi[i] = j
-    #         dies.append(ddi)
 
 
  
+        # disease_dic[name] = [result.Infection_Rate for result in results if result.Disease_Name == name]
 
 
     
