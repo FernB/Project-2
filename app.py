@@ -60,18 +60,22 @@ def default():
 
 
 
-@app.route("/api/<state>/<group>")
-def diseasegroups(state,group):
+@app.route("/api/data")
+def diseasegroups():
 
     
     Disease = Base.classes.DiseaseSummary
 
     session = Session(engine)
 
-    results = session.query(Disease).filter(Disease.Location == state).filter(Disease.Disease_Group == group)
+    results = session.query(Disease)
+    
+    # .filter(Disease.Location == state)
+    
+    #.filter(Disease.Disease_Group == group)
 
-    listofdiseases = session.query(Disease.Disease_Group).filter(Disease.Location == state).group_by(Disease.Disease_Group).all()
-    all_names = list(np.ravel(listofdiseases))
+    # listofdiseases = session.query(Disease.Disease_Group).filter(Disease.Location == state).group_by(Disease.Disease_Group).all()
+    # all_names = list(np.ravel(listofdiseases))
 
     # listofyears = session.query(Disease.Year).filter(Disease.Location == state).filter(Disease.Disease_Group == group).group_by(Disease.Year).all()
     # all_years = list(np.ravel(listofyears))
@@ -104,6 +108,8 @@ def diseasegroups(state,group):
         disease_dic["Year"] = result.Year
         disease_dic["Disease"] = result.Disease_Name
         disease_dic["Infection_Rate"] = result.Infection_Rate
+        disease_dic["Location"] = result.Location
+        disease_dic["Disease_Group"] = result.Disease_Group
         
         disease_list.append(disease_dic)
   
