@@ -33,33 +33,59 @@
 
 
 
-        
+      
+// Call database data
+d3.json("/api/data", function(apidata) {
+
+ console.log(apidata)
+  
+  // default options
+  var groupoption = "Gastrointestinal diseases";
+  var locationoption = "Aust";
+  var yearoption = 2015;
+
+  f = apidata.filter(function(d) { return d.Disease_Group===groupoption})
+  // get list of all disease groups for dropdown list
+  var allGroups = d3.map(apidata
+, function(d){return(d.Disease_Group)}).keys()
+  var allYears = d3.map(apidata
+, function(d){return(d.Year)}).keys()
 
 
-
-d3.json("/api/data", function(data2) {
-
- console.log(data2)
-    groupoption = "Gastrointestinal diseases"
-    f = data2.filter(function(d) { return d.Disease_Group===groupoption})
-    allGroup = d3.map(data2, function(d){return(d.Disease_Group)}).keys()
-
-      d3.select("#selectButton")
+  // append options to menu
+  d3.select("#selectButton")
   .selectAll('myOptions')
-  .data(allGroup)
+  .data(allGroups)
   .enter()
   .append('option')
-  .text(function (d) { return d; }) // text showed in the menu
-  .attr("value", function (d) { return d; }) // corresponding value returned by the button
+  .text(d => d) 
+  .attr("value", d => d) 
+
+    // append options to menu
+  d3.select("#selectYear")
+    .selectAll('yearOptions')
+    .data(allYears)
+    .enter()
+    .append('option')
+    .text(d => d) 
+    .attr("value", d => d) 
+
+
 
     
-
+ 
     ds = f.filter(function(d) { return d.Location==="WA"})
-    fd = d3.map(data2, function(d){return(d.Location)}).keys()
+    var alllocation = apidata
+.filter(d=>d.Location===locationoption).filter(d=>d.Year===yearoption)
+
+    fd = d3.map(apidata
+  , function(d){return(d.Location)}).keys()
 
     console.log(f)
-    wa = d3.sum(data2.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location==="WA"}).map(d => d.Infection_Rate))
-    sa = d3.sum(data2.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location==="SA"}).map(d => d.Infection_Rate))
+    wa = d3.sum(apidata
+  .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location==="WA"}).map(d => d.Infection_Rate))
+    sa = d3.sum(apidata
+  .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location==="SA"}).map(d => d.Infection_Rate))
 
     dtt = d3.map(f, function(d) {return(d.Disease)}).keys()
     console.log(dtt.length)
@@ -67,9 +93,12 @@ d3.json("/api/data", function(data2) {
     stest = ["New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"]
 
     col = ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT", "Aust", "Last 5yearsmean"]
-    total = col.map(state => d3.sum(data2.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).map(d => d.Infection_Rate))/dtt.length)
+    
+    
+    var maxgroupperstate = col.map(state => d3.max(apidata
+  .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===yearoption).map(d => d.Infection_Rate)))
 
-    console.log(total)
+    console.log(maxgroupperstate)
 
     // var myColour = d3.scaleLinear().domain(d3.extent(stdobs)).range(["white","blue"]);
 
@@ -79,6 +108,7 @@ d3.json("/api/data", function(data2) {
   height = +svg.attr("height")
   
   
+  // get states geojson data
   d3.json("/static/data/australian-states.min.geojson", function(data){
   
   
@@ -87,27 +117,187 @@ d3.json("/api/data", function(data2) {
   fpt = data.features.map(d => d.properties.STATE_NAME)
   var colourscheme = ['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02','#a6761d','#666666']
   console.log(fpt)
-  var myColour = d3.scaleSequential().domain(d3.extent(total)).interpolator(d3.interpolateReds);
-         // .attr("fill", function(d,i) { return myColour(stdobs[metrolga.indexOf(d.properties.name)])})
+
+  // create colour scale
+  var myColour = d3.scaleSequential().domain(d3.extent(maxgroupperstate)).interpolator(d3.interpolateReds);
   
   var statefilter = ""
+  // map state, colour based on total
   var projection = d3.geoMercator()
   .center([131, -25.95])       
   .scale(500)                    
   .translate([ width/2, height/2 ])
-  svg.append("g")
+  var mapchart = svg.append("g")
       .selectAll("path")
       .data(data.features)
       .enter()
       .append("path")
         .attr("opacity",0.7)
           .attr("d", d3.geoPath()
-              .projection(projection)
-          )
-          .attr("fill", function(d,i) { return myColour(total[i])})
+              .projection(projection))
+          .attr("fill", function(d,i) { return myColour(maxgroupperstate[i])})
           .style("stroke", "grey")
-          .on("click", function(d,i) {d3.select(this).attr("fill","green"), statefilter = col[i], updateY(statefilter),console.log(statefilter)} )
-  
+          .attr("class","state")
+          .on("click", function(d,i) {locationoption = col[i], updateY(),console.log(locationoption)} )
+
+       
+ // on option selected change option value and run update
+    d3.select("#selectButton").on("change", function(d) {
+          
+      groupoption = d3.select(this).property("value")
+      
+      updateY()
+    })
+     // on option selected change option value and run update
+     d3.select("#selectYear").on("change", function(d) {
+      
+      yearoption = d3.select(this).property("value")
+      
+      updateY()
+    })
+
+
+
+
+      function updateY() {
+
+      
+            var newlocation = apidata
+        .filter(d=>d.Location===locationoption)
+            var newdata = newlocation.filter(function(d) { return d.Disease_Group===groupoption})
+            
+            var newnested_max = d3.nest()
+            .key(function(d) { return d.Disease_Group; })
+            .rollup(function(leaves) { return {"total_infection": d3.max(leaves, function(d) {return d.Infection_Rate})} })
+            .entries(newlocation.filter(d=>d.Year===+yearoption));
+      
+      
+            var newnestedbydisease = d3.nest() 
+            .key(function(d) { return d.Disease;})
+            .entries(newdata);
+      
+
+
+            var newmaxgroupperstate = col.map(state => d3.max(apidata
+          .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===+yearoption).map(d => d.Infection_Rate)))
+
+            myColour = d3.scaleSequential().domain(d3.extent(newmaxgroupperstate)).interpolator(d3.interpolateReds);
+
+      
+            
+            y.domain([0, d3.max(newdata, function(d) { return d.Infection_Rate; })])
+            svg2.select(".yaxis")
+            .transition()
+            .duration(1000)
+            .call(d3.axisLeft(y));
+      
+            dataPlot.data(newnestedbydisease)
+            .transition()
+            .duration(1000)
+            .attr("d", function(d){
+              return d3.line()
+                .x(function(d) { return x(d.Year); })
+                .y(function(d) { return y(+d.Infection_Rate); })
+                (d.values)})
+      
+      
+              mapchart.data(data.features)
+              .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])})
+      
+      
+      
+      
+            xLinearScale.domain([0, d3.max(newnested_max, function(d) { return d.value.total_infection; })])
+            .range([0,chartWidth]);
+                svgbar.select(".scale")
+                .transition()
+                .duration(1000)
+                .call(bottomAxis);
+
+                // yBandScale.domain(newnested_max.map(d => d.key))
+                // .range([chartHeight, 30])
+
+                // svgbar.select(".labels")
+                // .transition()
+                // .duration(1000)
+                // .call(leftAxis)
+                
+                // d3.selectAll(".labels")
+                // .selectAll(".tick")
+                // .selectAll("text")
+                // .html("ddd")
+                
+        
+
+            
+      
+            bargroup.data(newnested_max)
+                .transition()
+                .duration(1000)
+                .attr("width", d => xLinearScale(d.value.total_infection))
+                .attr("y", d => yBandScale(d.key))
+                .attr("height", yBandScale.bandwidth());
+
+    
+              
+      console.log(newnested_max.map(function(d) { return d.value.total_infection; }))
+            console.log(newnested_max)
+      
+      
+           
+
+         var  newres = newnestedbydisease.map(function(d){ return d.key }) // list of group names
+          var newcolor = d3.scaleOrdinal()
+          .domain(newres)
+          .range(d3.schemeCategory10)
+            
+          var newlegend = legendtext.data(newres)
+      
+          newlegend
+            .enter()
+            .append("text")
+              .attr("font-family", "sans-serif")
+              .attr("x", 10)
+              .attr("y", function(d,i){ return 30 + i*25}) 
+              .attr("text-anchor", "left")
+              .style("alignment-baseline", "middle")
+            .merge(newlegend)
+            .transition()
+            .duration(1000)
+              .style("fill", function(d){ return newcolor(d)})
+              .text(function(d){ return d})
+
+          var newdots = legenddots.data(newres)
+
+          newdots
+          .enter()
+          .append("circle")
+            .attr("cx", 0)
+            .attr("cy", function(d,i){ return 30 + i*25})
+            .attr("r", 5)
+            .merge(newdots)
+            .transition()
+            .duration(1000)
+            .style("fill", function(d){ return color(d)})
+            
+            
+
+            newlegend
+              .exit()
+              .remove()
+              newdots
+              .exit()
+              .remove()
+
+              console.log(newres)
+ 
+      
+
+}
+
+
+
+
         })
 
 
@@ -130,7 +320,28 @@ var nestedbydisease = d3.nest() // nest function allows to group the calculation
 .key(function(d) { return d.Disease;})
 .entries(ds);
 
-console.log(nestedbydisease)
+var nestedbygroup = d3.nest()
+.key(function(d){return d.Disease_Group})
+.entries(alllocation)
+
+console.log(nestedbygroup)
+
+var maxgroup = nestedbygroup.map(d => d.values)
+var mapped = maxgroup.map(d => d)
+
+var nested_max = d3.nest()
+.key(function(d) { return d.Disease_Group; })
+.rollup(function(leaves) { return {"total_infection": d3.max(leaves, function(d) {return d.Infection_Rate})} })
+.entries(alllocation);
+
+var nested_mfax = d3.nest()
+.key(function(d) { return d.Disease_Group; })
+.rollup(function(leaves) { return {"total_infection": d3.min(leaves, function(d) {return d.Infection_Rate})} })
+.entries(alllocation);
+
+
+
+console.log(nested_max)
 
   // x = f.map(d => d.Infection_Rate)
   // console.log(x)
@@ -159,7 +370,7 @@ svg2.append("g")
 var res = nestedbydisease.map(function(d){ return d.key }) // list of group names
 var color = d3.scaleOrdinal()
 .domain(res)
-.range(['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999'])
+.range(d3.schemeCategory10)
 
 var linepath = d3.line()
 .x(d=>x(d.Year))
@@ -191,7 +402,7 @@ var dataPlot = svg2.selectAll(".line")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-legend.selectAll("mydots")
+var legenddots = legend.selectAll("mydots")
 .data(res)
 .enter()
 .append("circle")
@@ -201,10 +412,11 @@ legend.selectAll("mydots")
   .style("fill", function(d){ return color(d)})
 
 // Add one dot in the legend for each name.
-legend.selectAll("mylabels")
+var legendtext = legend.selectAll("mylabels")
 .data(res)
 .enter()
 .append("text")
+  .attr("font-family", "sans-serif")
   .attr("x", 10)
   .attr("y", function(d,i){ return 30 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
   .style("fill", function(d){ return color(d)})
@@ -214,38 +426,124 @@ legend.selectAll("mylabels")
 
     
 
-    function updateY(state) {
-
-      var newdata = f.filter(function(d) { return d.Location===state})
-
-      var newnestedbydisease = d3.nest() // nest function allows to group the calculation per level of a factor
-      .key(function(d) { return d.Disease;})
-      .entries(newdata);
-
-      
-      y.domain([0, d3.max(newdata, function(d) { return d.Infection_Rate; })])
-      svg2.select(".yaxis")
-      .transition()
-      .duration(1000)
-      .call(d3.axisLeft(y));
-
-      dataPlot.data(newnestedbydisease)
-      .transition()
-      .duration(1000)
-      .attr("d", function(d){
-        return d3.line()
-          .x(function(d) { return x(d.Year); })
-          .y(function(d) { return y(+d.Infection_Rate); })
-          (d.values)})
-      }
+    
 
 
+var sortednested = nested_max.sort((a, b) => b.value.total_infection - a.value.total_infection);
+
+// Setting vabriable for height and width for ease of calculations
+var svgbHeight = 400;
+var svgbWidth = 700;
+
+var chartMargin = {
+  top: 30,
+  right: 30,
+  bottom: 30,
+  left: 150
+};
+
+// Define dimensions of the chart area
+var chartWidth = svgbWidth - chartMargin.left - chartMargin.right;
+var chartHeight = svgbHeight - chartMargin.top - chartMargin.bottom;
+
+
+// Append an SVG wrapper to the page and set a variable equal to a reference to it
+
+
+var svgbar = d3.select("#bar")
+  .append("svg")
+  .attr("align","center")
+    .attr("height", svgbHeight)
+    .attr("width", svgbWidth)
+    .append("g")
+    .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);;
+
+//     var bargroup = svgbar.append("g")
+//     .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
 
 
+    // var svgbar = d3.select("#bar")
+    // .append("svg")
+    //   .attr("width", width + margin.left + margin.right)
+    //   .attr("height", height + margin.top + margin.bottom)
+    // .append("g")
+    //   .attr("transform",
+    //         "translate(" + margin.left + "," + margin.top + ")");
+
+
+  //           var x = d3.scaleBand()
+  //           .range([ 0, width ])
+  //           .domain(nested_max.map(function(d) { return d.key; }))
+  //           .padding(0.2);
+    
+
+  //           var y = d3.scaleLinear()
+  // .range([ height, 0])
+  // .domain([0, d3.max(nested_max, function(d) { return d.value.total_infection }) ]);
 
 
 
+  // var bottomAxis = d3.axisBottom(x);
+  // var leftAxis = d3.axisLeft(y);
+  // svgbar.append("g")
+  // .attr("class", "labels")
+  // .call(leftAxis);
+  
+  // svgbar.append("g")
+  // .attr("transform", `translate(0, ${chartHeight})`)
+  // .attr("class", "scale")
+  // .call(bottomAxis);
+  
+
+// svgbar.selectAll("rect")
+//   .data(sortednested)
+//   .enter().append("rect")
+//   .classed("bar", true)
+//   .attr("width", function(d) {
+//     return d.value.total_infection/2;
+//   })
+//   .attr("height", 30)
+//   .attr("fill","#31a354")
+//   .attr("x", 0)
+//   .attr("y", function(d, i) {
+//     return i * 40;
+//   });
+
+
+  var yBandScale = d3.scaleBand()
+  .domain(nested_max.map(d => d.key))
+  .range([chartHeight, 30])
+  .padding(0.1);
+
+  var xLinearScale = d3.scaleLinear()
+  .domain([0, d3.max(nested_max, d => d.value.total_infection)])
+  .range([0,chartWidth]);
+
+
+  var bottomAxis = d3.axisBottom(xLinearScale);
+  var leftAxis = d3.axisLeft(yBandScale);
+
+
+  svgbar.append("g")
+  .attr("class", "labels")
+  .call(leftAxis);
+  
+  svgbar.append("g")
+  .attr("transform", `translate(0, ${chartHeight})`)
+  .attr("class", "scale")
+  .call(bottomAxis);
+
+  var bargroup = svgbar.selectAll("rect")
+    .data(nested_max)
+  .enter()
+  .append("rect")
+  .attr("fill","#31a354")
+  .attr("class", "bar")
+  .attr("x", 0)
+  .attr("y", d => yBandScale(d.key))
+  .attr("width", d => xLinearScale(d.value.total_infection))
+  .attr("height", yBandScale.bandwidth());
 
 
 
@@ -255,6 +553,40 @@ legend.selectAll("mylabels")
 
 
 
+// var xBandScale = d3.scaleBand()
+// .domain(tvData.map(d => d.name))
+// .range([0, chartWidth])
+// .padding(0.1);
+
+// Create a linear scale for the vertical axis.
+// var yLinearScale = d3.scaleLinear()
+// .domain([0, d3.max(tvData, d => d.hours)])
+// .range([chartHeight, 0]);
+
+// Create two new functions passing our scales in as arguments
+// These will be used to create the chart's axes
+
+
+// Append two SVG group elements to the chartGroup area,
+// and create the bottom and left axes inside of them
+// chartGroup.append("g")
+// .call(leftAxis);
+
+// chartGroup.append("g")
+// .attr("transform", `translate(0, ${chartHeight})`)
+// .call(bottomAxis);
+
+// Create one SVG rectangle per piece of tvData
+// Use the linear and band scales to position each rectangle within the chart
+// chartGroup.selectAll(".bar")
+// .data(tvData)
+// .enter()
+// .append("rect")
+// .attr("class", "bar")
+// .attr("x", d => xBandScale(d.name))
+// .attr("y", d => yLinearScale(d.hours))
+// .attr("width", xBandScale.bandwidth())
+// .attr("height", d => chartHeight - yLinearScale(d.hours));
 
 
 
