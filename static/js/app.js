@@ -124,8 +124,8 @@ d3.json("/api/data", function(apidata) {
   var statefilter = ""
   // map state, colour based on total
   var projection = d3.geoMercator()
-  .center([131, -25.95])       
-  .scale(500)                    
+  .center([131, -20.95])       
+  .scale(600)                    
   .translate([ width/2, height/2 ])
   var mapchart = svg.append("g")
       .selectAll("path")
@@ -298,7 +298,18 @@ d3.json("/api/data", function(apidata) {
 
 
 
+
+
+
+
+
+
         })
+
+
+
+        
+
 
 
 // set the dimensions and margins of the graph
@@ -427,6 +438,38 @@ var legendtext = legend.selectAll("mylabels")
     
 
     
+
+  // initialize tooltip
+  var toolTip = d3.tip()
+  .attr("class", "d3-tip")
+  .offset([-10, 0])
+  .html(function(d) {
+      return (`${d.Disease}<br> ${d.Infection_Rate} `)});
+
+  // add tooltip to chart
+  dataPlot.call(toolTip);
+
+  // mouseover to display tip
+  dataPlot.on("mouseover", function(d) {
+  toolTip.show(d, this)
+  d3.select(this).style("stroke-width",4)
+  })
+
+  // mouseout to hide tip
+  .on("mouseout", function(d) {
+    toolTip.hide(d)
+    d3.select(this).style("stroke-width",2)
+  });
+
+
+
+
+
+
+
+
+
+
 
 
 var sortednested = nested_max.sort((a, b) => b.value.total_infection - a.value.total_infection);
