@@ -1,35 +1,3 @@
-// // @TODO: YOUR CODE HERE!
-
-
-// // define dimensions of svg
-// var svgWidth = 960;
-// var svgHeight = 660;
-
-// // define chart margin
-// var chartMargin = {
-//     top: 100,
-//     right: 100,
-//     bottom: 100,
-//     left: 100
-//   };
-// console.log("S")
-// // define chart dimensions
-// var chartWidth = svgWidth - chartMargin.left - chartMargin.right;
-// var chartHeight = svgHeight - chartMargin.top - chartMargin.bottom;
-
-// // create svg
-// var svg = d3.select("#scatter")
-//   .append("svg")
-//   .attr("height", svgHeight)
-//   .attr("width", svgWidth);
-
-// // create chart group
-// var chartGroup = svg.append("g")
-//   .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
-
-// import data python http server to be initialised
-
-
 
 
 
@@ -45,11 +13,13 @@ d3.json("/api/data", function(apidata) {
   var yearoption = 2015;
 
   f = apidata.filter(function(d) { return d.Disease_Group===groupoption})
+
+
   // get list of all disease groups for dropdown list
-  var allGroups = d3.map(apidata
-, function(d){return(d.Disease_Group)}).keys()
-  var allYears = d3.map(apidata
-, function(d){return(d.Year)}).keys()
+  var allGroups = d3.map(apidata, function(d){return(d.Disease_Group)}).keys()
+
+  // get list of all years for dropdown list
+  var allYears = d3.map(apidata, function(d){return(d.Year)}).keys()
 
 
   // append options to menu
@@ -103,9 +73,9 @@ d3.json("/api/data", function(apidata) {
     // var myColour = d3.scaleLinear().domain(d3.extent(stdobs)).range(["white","blue"]);
 
 
-  var svg = d3.select("#map")
-  width = +svg.attr("width")
-  height = +svg.attr("height")
+  var svgmap = d3.select("#map")
+  widthmap = +svgmap.attr("width")
+  heightmap = +svgmap.attr("height")
   
   
   // get states geojson data
@@ -124,10 +94,10 @@ d3.json("/api/data", function(apidata) {
   var statefilter = ""
   // map state, colour based on total
   var projection = d3.geoMercator()
-  .center([131, -20.95])       
+  .center([140, -30.95])       
   .scale(600)                    
-  .translate([ width/2, height/2 ])
-  var mapchart = svg.append("g")
+  .translate([ widthmap/2, heightmap/2 ])
+  var mapchart = svgmap.append("g")
       .selectAll("path")
       .data(data.features)
       .enter()
@@ -159,152 +129,17 @@ d3.json("/api/data", function(apidata) {
 
 
 
-      function updateY() {
+
+
+
+
+
+
+
+
+
 
       
-            var newlocation = apidata
-        .filter(d=>d.Location===locationoption)
-            var newdata = newlocation.filter(function(d) { return d.Disease_Group===groupoption})
-            
-            var newnested_max = d3.nest()
-            .key(function(d) { return d.Disease_Group; })
-            .rollup(function(leaves) { return {"total_infection": d3.max(leaves, function(d) {return d.Infection_Rate})} })
-            .entries(newlocation.filter(d=>d.Year===+yearoption));
-      
-      
-            var newnestedbydisease = d3.nest() 
-            .key(function(d) { return d.Disease;})
-            .entries(newdata);
-      
-
-
-            var newmaxgroupperstate = col.map(state => d3.max(apidata
-          .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===+yearoption).map(d => d.Infection_Rate)))
-
-            myColour = d3.scaleSequential().domain(d3.extent(newmaxgroupperstate)).interpolator(d3.interpolateReds);
-
-      
-            
-            y.domain([0, d3.max(newdata, function(d) { return d.Infection_Rate; })])
-            svg2.select(".yaxis")
-            .transition()
-            .duration(1000)
-            .call(d3.axisLeft(y));
-      
-            dataPlot.data(newnestedbydisease)
-            .transition()
-            .duration(1000)
-            .attr("d", function(d){
-              return d3.line()
-                .x(function(d) { return x(d.Year); })
-                .y(function(d) { return y(+d.Infection_Rate); })
-                (d.values)})
-      
-      
-              mapchart.data(data.features)
-              .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])})
-      
-      
-      
-      
-            xLinearScale.domain([0, d3.max(newnested_max, function(d) { return d.value.total_infection; })])
-            .range([0,chartWidth]);
-                svgbar.select(".scale")
-                .transition()
-                .duration(1000)
-                .call(bottomAxis);
-
-                // yBandScale.domain(newnested_max.map(d => d.key))
-                // .range([chartHeight, 30])
-
-                // svgbar.select(".labels")
-                // .transition()
-                // .duration(1000)
-                // .call(leftAxis)
-                
-                // d3.selectAll(".labels")
-                // .selectAll(".tick")
-                // .selectAll("text")
-                // .html("ddd")
-                
-        
-
-            
-      
-            bargroup.data(newnested_max)
-                .transition()
-                .duration(1000)
-                .attr("width", d => xLinearScale(d.value.total_infection))
-                .attr("y", d => yBandScale(d.key))
-                .attr("height", yBandScale.bandwidth());
-
-    
-              
-      console.log(newnested_max.map(function(d) { return d.value.total_infection; }))
-            console.log(newnested_max)
-      
-      
-           
-
-         var  newres = newnestedbydisease.map(function(d){ return d.key }) // list of group names
-          var newcolor = d3.scaleOrdinal()
-          .domain(newres)
-          .range(d3.schemeCategory10)
-            
-          var newlegend = legend.selectAll('text').data(newres)
-      
-          newlegend
-            .enter()
-            .append("text")
-            .merge(newlegend)
-            .transition()
-            .duration(1000)
-              .style("fill", function(d){ return newcolor(d)})
-              .text(function(d){ return d})
-              .attr("font-family", "sans-serif")
-              .attr("x", 10)
-              .attr("y", function(d,i){ return i*25}) 
-              .attr("text-anchor", "left")
-              .style("alignment-baseline", "middle")
-
-          var newdots = legend.selectAll('circle').data(newres)
-
-          newdots
-          .enter()
-          .append("circle")
-            .merge(newdots)
-            .transition()
-            .duration(1000)
-            .attr("cx", 0)
-            .attr("cy", function(d,i){ return i*25})
-            .attr("r", 5)
-            .style("fill", function(d){ return color(d)})
-            
-            
-
-            newlegend
-              .exit()
-              .remove()
-              newdots
-              .exit()
-              .remove()
-
-              console.log(newres)
- 
-      
-
-}
-
-
-
-
-
-
-
-
-
-
-        })
 
 
 
@@ -315,13 +150,13 @@ d3.json("/api/data", function(apidata) {
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    heightline = 400 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg2 = d3.select("#scatter")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", heightline + margin.top + margin.bottom)
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
@@ -362,20 +197,28 @@ console.log(nested_max)
   
 
 // Add X axis --> it is a date format
-var x = d3.scaleLinear()
+var xline = d3.scaleLinear()
 .domain(d3.extent(ds, function(d) { return d.Year; }))
 .range([ 0, width ]);
-svg2.append("g")
-.attr("transform", "translate(0," + height + ")")
-.call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
+
+
 
 // Add Y axis
-var y = d3.scaleLinear()
+var yline = d3.scaleLinear()
 .domain([0, d3.max(ds, function(d) { return d.Infection_Rate; })])
-.range([ height, 0 ]);
+.range([ heightline, 0 ]);
+
+
+var ylineAxis = d3.axisLeft(yline);
+var xlineAxis = d3.axisBottom(xline).ticks(5).tickFormat(d3.format("d"));
+
 svg2.append("g")
 .attr("class", "yaxis")
-.call(d3.axisLeft(y));
+.call(ylineAxis);
+
+svg2.append("g")
+.attr("transform", "translate(0," + heightline + ")")
+.call(xlineAxis);
 
 // color palette
 var res = nestedbydisease.map(function(d){ return d.key })
@@ -383,9 +226,9 @@ var color = d3.scaleOrdinal()
 .domain(res)
 .range(d3.schemeCategory10)
 
-var linepath = d3.line()
-.x(d=>x(d.Year))
-.y(d=>y(d.Infection_Rate));
+// var linepath = d3.line()
+// .x(d=>x(d.Year))
+// .y(d=>y(d.Infection_Rate));
 
 
 // Draw the line
@@ -398,8 +241,8 @@ var dataPlot = svg2.selectAll(".line")
     .attr("stroke-width", 2)
     .attr("d", function(d){
       return d3.line()
-        .x(function(d) { return x(d.Year); })
-        .y(function(d) { return y(+d.Infection_Rate); })
+        .x(function(d) { return xline(d.Year); })
+        .y(function(d) { return yline(+d.Infection_Rate); })
         (d.values)
     })
 
@@ -408,7 +251,7 @@ var dataPlot = svg2.selectAll(".line")
   var legend = d3.select("#scatter")
   .append("svg")
     .attr("width", 350)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("height", heightline + margin.top + margin.bottom)
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
@@ -444,7 +287,7 @@ var legendtext = legend.selectAll("mylabels")
   .attr("class", "d3-tip")
   .offset([-10, 0])
   .html(function(d) {
-      return (`${d.Disease}<br> ${d.Infection_Rate} `)});
+      return (`${d.key}`)});
 
   // add tooltip to chart
   dataPlot.call(toolTip);
@@ -590,6 +433,175 @@ var svgbar = d3.select("#bar")
 
 
 
+
+
+
+
+  function updateY() {
+
+      
+    var newlocation = apidata
+    .filter(d=>d.Location===locationoption)
+    var newdata = newlocation.filter(function(d) { return d.Disease_Group===groupoption})
+    
+    var newnested_max = d3.nest()
+    .key(function(d) { return d.Disease_Group; })
+    .rollup(function(leaves) { return {"total_infection": d3.max(leaves, function(d) {return d.Infection_Rate})} })
+    .entries(newlocation.filter(d=>d.Year===+yearoption));
+
+
+    var newnestedbydisease = d3.nest() 
+    .key(function(d) { return d.Disease;})
+    .entries(newdata);
+
+   
+
+var maxline = d3.nest()
+.key(d=>d.Disease)
+.rollup(s =>{return {"max" : d3.max(s, d=> d.Infection_Rate)}})
+.entries(newdata)
+
+console.log(d3.max(maxline, function(d) { return d.value.max }))
+
+  var newmaxgroupperstate = col.map(state => d3.max(apidata
+  .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===+yearoption).map(d => d.Infection_Rate)))
+
+    myColour = d3.scaleSequential().domain(d3.extent(newmaxgroupperstate)).interpolator(d3.interpolateReds);
+
+    console.log(d3.max(newdata, function(d) { return d.Infection_Rate }))
+    
+    yline.domain([0, d3.max(maxline, function(d) { return d.value.max })])
+    .range([heightline, 0]);
+
+    svg2.select(".yaxis")
+    .transition()
+    .duration(1000)
+    .call(ylineAxis);
+
+
+
+    var  newres = newnestedbydisease.map(function(d){ return d.key }) // list of group names
+    var newcolor = d3.scaleOrdinal()
+    .domain(newres)
+    .range(d3.schemeCategory10)
+
+
+    var newplot = svg2.selectAll("path").data(newnestedbydisease);
+
+    newplot
+    .enter()
+    .append("path")
+    .merge(newplot)
+    .transition()
+    .duration(1000)
+    .attr("fill", "none")
+    .attr("stroke", function(d){ return newcolor(d.key) })
+    .attr("stroke-width", 2)
+    .attr("d", function(d){
+      return d3.line()
+        .x(function(d) { return xline(d.Year) })
+        .y(function(d) { return yline(d.Infection_Rate) })
+        (d.values)})
+
+
+
+        newplot
+        .exit()
+        .remove()
+
+
+      mapchart.data(data.features)
+      .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])})
+
+
+
+
+    xLinearScale.domain([0, d3.max(newnested_max, function(d) { return d.value.total_infection; })])
+    .range([0,chartWidth]);
+
+        svgbar.select(".scale")
+        .transition()
+        .duration(1000)
+        .call(bottomAxis);
+
+
+
+    bargroup.data(newnested_max)
+        .transition()
+        .duration(1000)
+        .attr("width", d => xLinearScale(d.value.total_infection))
+        .attr("y", d => yBandScale(d.key))
+        .attr("height", yBandScale.bandwidth());
+
+
+      
+console.log(newnested_max.map(function(d) { return d.value.total_infection; }))
+    console.log(newnested_max)
+
+
+   
+
+
+    
+  var newlegend = legend.selectAll('text').data(newres)
+
+  newlegend
+    .enter()
+    .append("text")
+    .merge(newlegend)
+    .transition()
+    .duration(1000)
+      .style("fill", function(d){ return newcolor(d)})
+      .text(function(d){ return d})
+      .attr("font-family", "sans-serif")
+      .attr("x", 10)
+      .attr("y", function(d,i){ return i*25}) 
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle")
+
+  var newdots = legend.selectAll('circle').data(newres)
+
+  newdots
+  .enter()
+  .append("circle")
+    .merge(newdots)
+    .transition()
+    .duration(1000)
+    .attr("cx", 0)
+    .attr("cy", function(d,i){ return i*25})
+    .attr("r", 5)
+    .style("fill", function(d){ return newcolor(d)})
+    
+    
+
+    newlegend
+      .exit()
+      .remove()
+      newdots
+      .exit()
+      .remove()
+
+      console.log(newres)
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+})
 
 })
 
