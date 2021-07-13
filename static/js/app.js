@@ -251,33 +251,33 @@ d3.json("/api/data", function(apidata) {
           .domain(newres)
           .range(d3.schemeCategory10)
             
-          var newlegend = legendtext.data(newres)
+          var newlegend = legend.selectAll('text').data(newres)
       
           newlegend
             .enter()
             .append("text")
-              .attr("font-family", "sans-serif")
-              .attr("x", 10)
-              .attr("y", function(d,i){ return 30 + i*25}) 
-              .attr("text-anchor", "left")
-              .style("alignment-baseline", "middle")
             .merge(newlegend)
             .transition()
             .duration(1000)
               .style("fill", function(d){ return newcolor(d)})
               .text(function(d){ return d})
+              .attr("font-family", "sans-serif")
+              .attr("x", 10)
+              .attr("y", function(d,i){ return i*25}) 
+              .attr("text-anchor", "left")
+              .style("alignment-baseline", "middle")
 
-          var newdots = legenddots.data(newres)
+          var newdots = legend.selectAll('circle').data(newres)
 
           newdots
           .enter()
           .append("circle")
-            .attr("cx", 0)
-            .attr("cy", function(d,i){ return 30 + i*25})
-            .attr("r", 5)
             .merge(newdots)
             .transition()
             .duration(1000)
+            .attr("cx", 0)
+            .attr("cy", function(d,i){ return i*25})
+            .attr("r", 5)
             .style("fill", function(d){ return color(d)})
             
             
@@ -367,7 +367,7 @@ svg2.append("g")
 .call(d3.axisLeft(y));
 
 // color palette
-var res = nestedbydisease.map(function(d){ return d.key }) // list of group names
+var res = nestedbydisease.map(function(d){ return d.key })
 var color = d3.scaleOrdinal()
 .domain(res)
 .range(d3.schemeCategory10)
@@ -396,7 +396,7 @@ var dataPlot = svg2.selectAll(".line")
   // Add one dot in the legend for each name.
   var legend = d3.select("#scatter")
   .append("svg")
-    .attr("width", 200)
+    .attr("width", 350)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform",
@@ -407,7 +407,7 @@ var legenddots = legend.selectAll("mydots")
 .enter()
 .append("circle")
   .attr("cx", 0)
-  .attr("cy", function(d,i){ return 30 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+  .attr("cy", function(d,i){ return 30 + i*25})
   .attr("r", 5)
   .style("fill", function(d){ return color(d)})
 
