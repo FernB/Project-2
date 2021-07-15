@@ -23,6 +23,7 @@
   cursor: pointer;
 }
 
+.labels { font: 14px sans-serif; }
 
 .chart {
   display: block;
@@ -57,7 +58,7 @@
 
 
 /* Mobile Rules */
-@media screen and (max-width: 530px) {
+/* @media screen and (max-width: 530px) {
   .stateText {
     display: none;
   }
@@ -71,4 +72,4 @@
   .aText {
     font-size: 13px;
   }
-}
+} */
