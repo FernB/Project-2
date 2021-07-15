@@ -265,7 +265,7 @@ var legendtext = legend.selectAll("mylabels")
   // initialize tooltip
   var toolTip = d3.tip()
   .attr("class", "d3-tip")
-  .offset([-10, 0])
+  .offset([-2, 0])
   .html(function(d) {
       return (`${d.key}`)});
 
@@ -283,6 +283,25 @@ var legendtext = legend.selectAll("mylabels")
     toolTip.hide(d)
     d3.select(this).style("stroke-width",2)
   });
+
+
+b = data.features.map(d => d.properties.STATE_NAME)
+console.log(b)
+  var maptoolTip = d3.tip()
+  .attr("class", "d3-tip")
+  .offset([0, 0])
+  .html(d => { i = data.features.map(d => d.properties.STATE_NAME).indexOf(d.properties.STATE_NAME)
+      return (`<h6>${d.properties.STATE_NAME}</h6><h6>${groupoption}</h6><h6>Max Disease Infection Rate:  ${maxgroupperstate[i]}</h6>`)});
+
+  mapchart.call(maptoolTip);
+
+  mapchart.on("mouseover", function(d) {
+    maptoolTip.show(d, this)
+    })
+
+    .on("mouseout", function(d) {
+      maptoolTip.hide(d)
+    });
 
 
 
@@ -357,6 +376,21 @@ var svgbar = d3.select("#bar")
   .attr("width", d => xLinearScale(d.value.total_infection))
   .attr("height", yBandScale.bandwidth());
 
+  var bartoolTip = d3.tip()
+  .attr("class", "d3-tip")
+  .offset([0,50])
+  .html(function(d) {
+      return (`<h6>${d.key}</h6><h6>Max Disease Infection Rate:   ${d.value.total_infection}</h6>`)});
+
+      bargroup.call(bartoolTip);
+
+      bargroup.on("mouseover", function(d) {
+    bartoolTip.show(d, this)
+    })
+
+    .on("mouseout", function(d) {
+      bartoolTip.hide(d)
+    });
 
 
 
