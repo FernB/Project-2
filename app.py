@@ -29,12 +29,13 @@ def index():
 @app.route("/list")
 def default():
     # list of unquie disease groups for dropdown
+    return render_template('./second.html')
     
-    Diseasegroups = Base.classes.DiseaseGroups
+    # Diseasegroups = Base.classes.DiseaseGroups
 
-    session = Session(engine)
+    # session = Session(engine)
 
-    results = session.query(Diseasegroups.DiseaseGroup).group_by(Diseasegroups.DiseaseGroup).all()
+    # results = session.query(Diseasegroups.DiseaseGroup).group_by(Diseasegroups.DiseaseGroup).all()
     # all_names = Base.classes.keys()
 
     
@@ -49,11 +50,11 @@ def default():
     #     all_names.append(c['name'])
 
 
-    session.close()
+    # session.close()
 
-    all_names = list(np.ravel(results))
+    # all_names = list(np.ravel(results))
 
-    return jsonify(all_names)
+    # return jsonify(all_names)
 
 
 

@@ -83,7 +83,7 @@ d3.json("/api/data", function(apidata) {
   
     // map state, colour based on max infection rate of selected group
     var projection = d3.geoMercator()
-      .center([140, -30.95])       
+      .center([132, -30.95])       
       .scale(600)                    
       .translate([ widthmap/2, heightmap/2 ]);
 
@@ -274,7 +274,7 @@ d3.json("/api/data", function(apidata) {
       top: 30,
       right: 30,
       bottom: 30,
-      left: 150
+      left: 180
     };
 
     // bar chart height and width
@@ -284,7 +284,7 @@ d3.json("/api/data", function(apidata) {
     // add bar chart svg to bar div
     var svgbar = d3.select("#bar")
       .append("svg")
-      .attr("align","center")
+      .attr("align","right")
         .attr("height", svgbHeight)
         .attr("width", svgbWidth)
         .append("g")
@@ -303,12 +303,26 @@ d3.json("/api/data", function(apidata) {
 
     // set x and y axis
     var bottomAxis = d3.axisBottom(xLinearScale);
-    var leftAxis = d3.axisLeft(yBandScale);
+    var leftAxis = d3.axisLeft(yBandScale).tickFormat((d,i) => nested_max.map(d => `${d.key.substring(0,Array.from(d.key).lastIndexOf(" "))} ${d.key.substring(1+Array.from(d.key).lastIndexOf(" "))}`)[i]);
+
+    // function to make longer tick labels wrapped
+    function shorten(text){
+      text.each(function(){
+        var t = d3.select(this).html();
+        var first = (t === " Zoonoses") ? "Zoonoses" : t.substring(0,Array.from(t).lastIndexOf(" "));
+        var second = (t === " Zoonoses") ? "": t.substring(1+Array.from(t).lastIndexOf(" "));
+        var y = (t === " Zoonoses") ? 0: -9;
+        d3.select(this).text(null).append('tspan').attr("x",-10).attr("y",y).text(first)
+        d3.select(this).append('tspan').attr("x",-10).attr("y",9).text(second)      
+      })
+    };
 
     // append both axis to chart
     svgbar.append("g")
     .attr("class", "labels")
-    .call(leftAxis);
+    .call(leftAxis)
+    .selectAll(".tick text")
+    .call(shorten);
     
     svgbar.append("g")
     .attr("transform", `translate(0, ${chartHeight})`)
@@ -654,84 +668,79 @@ d3.json("/api/data", function(apidata) {
                   .y(function(d) { return yline(+d.Infection_Rate) })
                   (d.values)});
 
-        // remove excess points
-        newplot.exit().remove();
+      // remove excess points
+      newplot.exit().remove();
 
 
   /*     UPDATE MAP CHART       */
 
-        // 
-        mapchart.data(data.features)
-        .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])})
+      // update colours
+      mapchart.data(data.features)
+        .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])});
 
 
+  /*     UPDATE BAR CHART      */
 
+      // update x scale
+      xLinearScale.domain([0, d3.max(newnested_max, function(d) { return d.value.total_infection; })])
+        .range([0,chartWidth]);
 
-    xLinearScale.domain([0, d3.max(newnested_max, function(d) { return d.value.total_infection; })])
-    .range([0,chartWidth]);
-
-        svgbar.select(".scale")
+      // update x axis
+      svgbar.select(".scale")
         .transition()
         .duration(1000)
         .call(bottomAxis);
 
 
+      // update bars
+      bargroup.data(newnested_max)
+          .transition()
+          .duration(1000)
+          .attr("width", d => xLinearScale(d.value.total_infection))
+          .attr("y", d => yBandScale(d.key))
+          .attr("height", yBandScale.bandwidth());
 
-    bargroup.data(newnested_max)
+      // bind new text data to legend
+      var newlegend = legend.selectAll('text').data(newres);
+
+      // update legend text with new data
+      newlegend
+        .enter()
+        .append("text")
+        .merge(newlegend)
         .transition()
         .duration(1000)
-        .attr("width", d => xLinearScale(d.value.total_infection))
-        .attr("y", d => yBandScale(d.key))
-        .attr("height", yBandScale.bandwidth());
+          .style("fill", function(d){ return newcolor(d)})
+          .text(function(d){ return d})
+          .attr("font-family", "sans-serif")
+          .attr("x", 10)
+          .attr("y", function(d,i){ return i*25}) 
+          .attr("text-anchor", "left")
+          .style("alignment-baseline", "middle")
 
+      // bind legend circles with new data
+      var newdots = legend.selectAll('circle').data(newres)
 
-      
-console.log(newnested_max.map(function(d) { return d.value.total_infection; }))
-    console.log(newnested_max)
-
-
-   
-
-
-    
-  var newlegend = legend.selectAll('text').data(newres)
-
-  newlegend
-    .enter()
-    .append("text")
-    .merge(newlegend)
-    .transition()
-    .duration(1000)
-      .style("fill", function(d){ return newcolor(d)})
-      .text(function(d){ return d})
-      .attr("font-family", "sans-serif")
-      .attr("x", 10)
-      .attr("y", function(d,i){ return i*25}) 
-      .attr("text-anchor", "left")
-      .style("alignment-baseline", "middle")
-
-  var newdots = legend.selectAll('circle').data(newres)
-
-  newdots
-  .enter()
-  .append("circle")
-    .merge(newdots)
-    .transition()
-    .duration(1000)
-    .attr("cx", 0)
-    .attr("cy", function(d,i){ return i*25})
-    .attr("r", 5)
-    .style("fill", function(d){ return newcolor(d)});
+      // update circles
+      newdots
+      .enter()
+      .append("circle")
+        .merge(newdots)
+        .transition()
+        .duration(1000)
+        .attr("cx", 0)
+        .attr("cy", function(d,i){ return i*25})
+        .attr("r", 5)
+        .style("fill", function(d){ return newcolor(d)});
     
     
-    // remove excess items
-    newlegend
-      .exit()
-      .remove();
-    newdots
-      .exit()
-      .remove();
-
+      // remove excess items
+      newlegend
+        .exit()
+        .remove();
+      newdots
+        .exit()
+        .remove();
 
 
 // end of update chart function

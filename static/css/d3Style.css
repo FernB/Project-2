@@ -23,7 +23,10 @@
   cursor: pointer;
 }
 
-.labels { font: 14px sans-serif; }
+.labels { 
+  font: 14px sans-serif;
+  white-space: pre-wrap;
+}
 
 .chart {
   display: block;
