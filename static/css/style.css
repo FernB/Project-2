@@ -3,6 +3,11 @@
   border: 1px solid #e3e3e3;
 }
 
+.container {
+  padding: 0;
+  border:0;
+}
+
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
 html {
   position: relative;
