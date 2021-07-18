@@ -40,6 +40,8 @@ d3.json("/api/data", function(apidata) {
  
   ds = f.filter(function(d) { return d.Location==="WA"})
 
+  var yearfiltered = apidata.filter(function(d) { return d.Year===yearoption})
+
   var alllocation = apidata.filter(d=>d.Location===locationoption).filter(d=>d.Year===yearoption)
 
     fd = d3.map(apidata, function(d){return(d.Location)}).keys()
@@ -146,7 +148,9 @@ var nestedbygroup = d3.nest()
 .key(function(d){return d.Disease_Group})
 .entries(alllocation)
 
-console.log(nestedbygroup)
+var nestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(yearfiltered)
+
+console.log(nestedyeargroup)
 
 var maxgroup = nestedbygroup.map(d => d.values)
 var mapped = maxgroup.map(d => d)
@@ -285,8 +289,8 @@ var legendtext = legend.selectAll("mylabels")
   });
 
 
-b = data.features.map(d => d.properties.STATE_NAME)
-console.log(b)
+var mappedstates = data.features.map(d => d.properties.STATE_NAME)
+console.log(mappedstates)
   var maptoolTip = d3.tip()
   .attr("class", "d3-tip")
   .offset([0, 0])
@@ -396,6 +400,164 @@ var svgbar = d3.select("#bar")
 
 
 
+// set the dimensions and margins of the graph
+var marginsb = {top: 10, right: 30, bottom: 20, left: 50},
+    widthsb = 460 - marginsb.left - marginsb.right,
+    heightsb = 400 - marginsb.top - marginsb.bottom;
+
+// append the svg object to the body of the page
+var svgsb = d3.select("#stackedbar")
+  .append("svg")
+    .attr("width", widthsb + marginsb.left + marginsb.right)
+    .attr("height", heightsb + marginsb.top + marginsb.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + marginsb.left + "," + marginsb.top + ")");
+
+
+
+
+var flatten = [];
+var total = []
+nestedyeargroup.forEach(function(d) {
+    var obj = { Location: d.key }
+        d.values.forEach(function(f) {
+            obj[f.key] = f.value;
+            total.push(f.value)
+        });
+    flatten.push(obj);
+  });
+
+
+
+
+ // Add X axis
+ var xsb = d3.scaleBand()
+     .domain(flatten.map(function(d) {return d.Location}))
+     .range([0, widthsb])
+     .padding([0.2])
+     svgsb.append("g")
+   .attr("transform", "translate(0," + heightsb + ")")
+   .attr("class","xsbaxis")
+   .call(d3.axisBottom(xsb).tickSizeOuter(0));
+
+ // Add Y axis
+ var ysb = d3.scaleLinear()
+   .domain([0, d3.max(total)])
+   .range([heightsb, 0 ]);
+   svgsb.append("g")
+   .attr("class","ysbaxis")
+   .call(d3.axisLeft(ysb));
+
+ var colorsb = d3.scaleOrdinal()
+   .domain(allGroups)
+   .range(d3.schemeCategory10);
+
+   console.log(flatten)
+ 
+ //stack the data? --> stack per subgroup
+ var stackedData = d3.stack()
+   .keys(allGroups)
+   (flatten)
+
+   var mouseoversb = function(d) {
+    
+    var subgroupName = d3.select(this.parentNode).attr("class"); 
+    var subgroupValue = d.data[allGroups];
+   
+    console.log(subgroupName)
+    // Highlight all rects of this subgroup with opacity 0.8. It is possible to select them since they have a specific class = their name.
+    svgsb.selectAll("rect").style("opacity",0.2)
+    d3.select(this.parentNode).selectAll("rect").style("opacity", 1)
+    
+    
+
+
+     
+
+    }
+
+  // When user do not hover anymore
+  var mouseleavesb = function(d) {
+    // Back to normal opacity: 0.8
+    d3.selectAll("rect")
+      .style("opacity",0.8)
+    }
+console.log(stackedData)
+  // Show the bars
+  var stackedbar = svgsb.append("g")
+    .selectAll("g")
+    // Enter in the stack data = loop key per key = group per group
+    .data(stackedData)
+    .enter().append("g")
+      .attr("fill", function(d) { return colorsb(d.key); })
+      .attr("class", function(d){ return "myRect " + d.key }) // Add a class to each subgroup: their name
+      .selectAll("rect")
+      .data(function(d) { return d; })
+      .enter().append("rect")
+        .attr("x", function(d) { return xsb(d.data.Location); })
+        .attr("y", function(d) {return ysb(Object.values(d)[1])})
+        .attr("height", function(d,i) { return (ysb(Object.values(d)[0]) - ysb(Object.values(d)[1])); })
+        .attr("width",xsb.bandwidth())
+        .attr("stroke", "grey")
+        .style("opacity",0.8)
+      .on("mouseover", mouseoversb)
+      .on("mouseleave", mouseleavesb)
+
+
+
+      var legendsb = d3.select("#stackedbar")
+      .append("svg")
+        .attr("width", 350)
+        .attr("height", heightsb + marginsb.top + marginsb.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + marginsb.left + "," + marginsb.top + ")");
+    
+    legendsb.selectAll("sbsq")
+    .data(allGroups)
+    .enter()
+    .append("circle")
+      .attr("cx", 0)
+      .attr("cy", function(d,i){ return 30 + i*25})
+      .attr("r", 5)
+      .style("fill", function(d){ return colorsb(d)})
+    
+    // Add one dot in the legend for each name.
+    legendsb.selectAll("sblabels")
+    .data(allGroups)
+    .enter()
+    .append("text")
+      .attr("font-family", "sans-serif")
+      .attr("x", 15)
+      .attr("y", function(d,i){ return 30 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+      .style("fill", function(d){ return colorsb(d)})
+      .text(function(d){ return d})
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   function updateY() {
 
@@ -408,6 +570,74 @@ var svgbar = d3.select("#bar")
     .key(function(d) { return d.Disease_Group; })
     .rollup(function(leaves) { return {"total_infection": d3.max(leaves, function(d) {return d.Infection_Rate})} })
     .entries(newlocation.filter(d=>d.Year===+yearoption));
+
+    var newyearfiltered = apidata.filter(function(d) { return d.Year===+yearoption})
+    
+
+    var newnestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(newyearfiltered)
+
+var newflatten = [];
+var newtotal = []
+newnestedyeargroup.forEach(function(d) {
+    var obj = { Location: d.key }
+        d.values.forEach(function(f) {
+            obj[f.key] = f.value;
+            newtotal.push(f.value)
+        });
+    newflatten.push(obj);
+  });
+
+  var newstackedData = d3.stack()
+  .keys(allGroups)
+  (newflatten)
+
+  ysb
+  .domain([0, d3.max(newtotal)])
+  .range([heightsb, 0 ]);
+
+  svgsb.select(".ysbaxis")
+  .transition()
+  .duration(1000)
+  .call(d3.axisLeft(ysb));
+
+
+
+var locationkey = newflatten.map(function(d) {return d.Location})
+ 
+
+svgsb.selectAll("g").filter(function() {
+  return this.classList.contains('myRect')}).remove()
+
+
+
+
+
+
+stackedbar = svgsb.append("g")
+.selectAll("g")
+.data(newstackedData)
+.enter().append("g")
+  .attr("fill", function(d) { return colorsb(d.key); })
+  .attr("class", function(d){ return "myRect " + d.key }) // Add a class to each subgroup: their name
+  .selectAll("rect")
+  .data(function(d) { return d; })
+  .enter().append("rect")
+    .attr("x", function(d) { return xsb(d.data.Location); })
+    .attr("y", function(d) {return ysb(Object.values(d)[1])})
+    .attr("height", function(d,i) { return (ysb(Object.values(d)[0]) - ysb(Object.values(d)[1])); })
+    .attr("width",xsb.bandwidth())
+    .attr("stroke", "grey")
+    .style("opacity",0.8)
+  .on("mouseover", mouseoversb)
+  .on("mouseleave", mouseleavesb)
+
+
+
+
+
+
+
+
 
 
     var newnestedbydisease = d3.nest() 
