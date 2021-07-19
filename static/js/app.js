@@ -188,8 +188,11 @@ d3.json("/api/data", function(apidata) {
     .key(function(d){return d.Disease_Group})
     .entries(alllocation);
 
+    // filter out aus and 5yearmean
+    var finalfiltered = yearfiltered.filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
+
     // nest data by filtered by year by location and disease group roll up to sum total infection rates for each group
-    var nestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(yearfiltered);
+    var nestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(finalfiltered);
 
     // nest data filtered by location and year by disease group and roll up to sum total infection rates
     var nested_max = d3.nest()
@@ -583,9 +586,13 @@ d3.json("/api/data", function(apidata) {
 
       // data filtered by year only
       var newyearfiltered = apidata.filter(function(d) { return d.Year===+yearoption});
+
+      // filter out aus and 5yearmean
+      var newfinalfiltered = newyearfiltered.filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
       
       // year filtered data nested by location and disease group rolled up to sum total infection rate
-      var newnestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(newyearfiltered);
+      var newnestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(newfinalfiltered);
+
 
   /*   UPDATE STACKED BAR CHART    */
   

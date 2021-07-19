@@ -65,25 +65,34 @@
 </nav>
       <div class="container-fluid">
       <div class="row mt-5">
-        <div class="col-sm-2">
-          <h5 class="text-end pt-1">Disease Group</h5>
-          <h5 class="text-end pt-1">Year</h5>
+        <div class="col-sm-2"> <h5 class="text-end"><span class="badge bg-secondary">Filter to Explore</span></h5></div>
+        <div class="col-sm-1 p-0 m-0">
+          <h6 class="text-end pt-1">Disease Group</h6>
         </div>
-      <div class="col-sm-2">
-      <select class="form-select" style="width: 300px" id="selectButton"></select>
-      
-      <select class="form-select float-right" style="width: 300px" id="selectYear"></select>
-    </div>
+        <div class="col-sm-2">
+          <select class="form-select" style="width: 300px" id="selectButton"></select>
+        </div>
+  
+      <div class="col-sm-1 p-0 m-0">
+      <h6 class="text-end pt-1">Year</h6>
+
       </div>
-      <div class ="row">
+      <div class="col-sm-2">
+    
+        <select class="form-select" style="width: 300px" id="selectYear"></select>
+        </div>
+
+
+      </div>
+      <div class ="row pt-5">
         <div class="col-sm-6">
       
-        <span class="badge bg-secondary">Click States to Explore</span>
+       <h5> <span class="badge bg-secondary">Click States to Explore</span></h5>
         
         </div>
         <div class="col-sm-6">
           
-          <span class="badge bg-secondary">Bar Chart</span>
+          <h5><span class="badge bg-secondary">Distribution of Groups</span></h5>
         </div>
       </div>
 
@@ -99,13 +108,23 @@
          
         </div>
 </div>
-<span class="badge badge-pill badge-primary">Scatter Chart</span>
+
+<div class ="row pt-5">
+  <div class="col-sm-6">
+
+ <h5> <span class="badge bg-secondary">Disease Trends</span> </h5>
+  
+  </div>
+  <div class="col-sm-6">
+    
+   <h5> <span class="badge bg-secondary">Distribution in States</span> </h5>
+  </div>
         <div class="row">
           <div class="col-sm-6">
-          <div id="scatter" class="bg-light">    </div>
+          <div id="scatter" class="bg-light"> <h6 class="p-3"> Infection Rates for Bloodborne Diseases in<br>Australia between 2015 and 2020</h6>    </div>
         </div>
             <div class="col-sm-6">
-              <div id="stackedbar" class="bg-light">    </div>
+              <div id="stackedbar" class="bg-light"> <h6 class="p-3"> Disease Group Infection Rates in all States in 2015</h6>   </div>
 
             </div>
         </div>
