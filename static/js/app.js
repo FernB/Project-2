@@ -5,7 +5,7 @@ d3.json("/api/data", function(apidata) {
   
   // default options for disease group, year and location
   var groupoption = "Gastrointestinal diseases";
-  var locationoption = "Aust";
+  var locationoption = "NSW";
   var yearoption = 2015;
 
   // get list of all disease groups for dropdown list
@@ -835,6 +835,13 @@ d3.json("/api/data", function(apidata) {
       newdots
         .exit()
         .remove();
+
+      //update summarys
+      d3.select("#mapsummary").html(`Total Infection Rates for ${groupoption} in ${yearoption}`)
+      d3.select("#barsummary").html(`Disease Group Infection Rates for ${locationoption} in ${yearoption}`)
+      d3.select("#linesummary").html(`Infection Rates for ${groupoption} in <br> ${locationoption} between 2015 and 2020`)
+      d3.select("#sbsummary").html(`Disease Group Infection Rates in all States in ${yearoption}`)
+      
 
 
 // end of update chart function
