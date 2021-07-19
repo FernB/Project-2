@@ -23,6 +23,10 @@
   cursor: pointer;
 }
 
+.maplabels {
+  font: 12px;
+}
+
 .labels { 
   font: 14px sans-serif;
   white-space: pre-wrap;

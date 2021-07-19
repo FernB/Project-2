@@ -60,7 +60,6 @@ d3.json("/api/data", function(apidata) {
   // map total rate of infection for each state per group and year
   var maxgroupperstate = stateabbr.map(state => d3.sum(apidata.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===yearoption).map(d => d.Infection_Rate)));
 
-
   // get states geojson data
   d3.json("/static/data/australian-states.min.geojson", function(data){
   
@@ -68,8 +67,8 @@ d3.json("/api/data", function(apidata) {
   /* MAP CHART */
   
     // set svg width and height
-    var widthmap = 550;
-    var heightmap = 550;
+    var widthmap = 500;
+    var heightmap = 500;
   
     // create map svg in map div
     var svgmap = d3.select("#map")
@@ -99,7 +98,7 @@ d3.json("/api/data", function(apidata) {
             .attr("fill", function(d,i) { return myColour(maxgroupperstate[i])})
             .style("stroke", "grey")
             .attr("class","state")
-            .on("click", function(d,i) {locationoption = stateabbr[i], updateCharts()} );
+            .on("click", function(d,i) {locationoption = stateabbr[i], maptoolTip.hide(d), updateCharts()} );
 
   
     //initialise map tool tip
@@ -120,6 +119,46 @@ d3.json("/api/data", function(apidata) {
             .on("mouseout", function(d) {
               maptoolTip.hide(d)
             });   
+
+    // sort range for legend
+    var max = Math.floor(d3.max(maxgroupperstate.slice(0,8))/10)*10
+    var min = Math.ceil(d3.min(maxgroupperstate.slice(0,8))/10)*10
+    var steps = Math.floor((max-min)/4/10)*10
+    var range = [max, max-steps,max-2*steps,max-3*steps,min]
+
+    // legend for map chart
+    var legendmap = d3.select("#map")
+    .append("svg")
+      .attr("width", 200)
+      .attr("height", heightmap)
+    .append("g")
+      .attr("transform",
+            "translate(" + 20 + "," + 20 + ")");
+
+    // add square for each infection rate band
+    legendmap.selectAll("legendsquares")
+    .data(range)
+    .enter()
+    .append("rect")
+      .attr("x", 0)
+      .attr("y", function(d,i){ return 60 + i*20})
+      .attr("width", 20)
+      .attr("height",20)
+      .attr("stroke","gray")
+      .style("fill", function(d){ return myColour(d)});
+
+    // add name range next to each square
+    legendmap.selectAll("maplabels")
+    .data(range)
+    .enter()
+    .append("text")
+      .attr("class","maplabels")
+      .attr("font-family", "sans-serif")
+      .attr("x", 25)
+      .attr("y", function(d,i){ return 70 + i*20}) 
+      .text(function(d,i){ return (i >0 && i<4) ? Math.round(range[i+1]) + " - " + Math.round(range[i]) : (i <4 ) ? ">"+Math.round(range[i+1]) : "<"+Math.round(range[i]) })
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle");
 
 
 /* LINE CHART */
@@ -266,14 +305,14 @@ d3.json("/api/data", function(apidata) {
 /* HORIZONTAL BAR CHART  */
 
     // bar svg height and width
-    var svgbHeight = 400;
+    var svgbHeight = 500;
     var svgbWidth = 700;
 
     // bar chart margins
     var chartMargin = {
-      top: 30,
-      right: 30,
-      bottom: 30,
+      top: 50,
+      right: 50,
+      bottom: 50,
       left: 180
     };
 
@@ -288,7 +327,7 @@ d3.json("/api/data", function(apidata) {
         .attr("height", svgbHeight)
         .attr("width", svgbWidth)
         .append("g")
-        .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
+        .attr("transform", `translate(${chartMargin.left}, 0)`);
 
     // set y scale
     var yBandScale = d3.scaleBand()
@@ -675,8 +714,56 @@ d3.json("/api/data", function(apidata) {
   /*     UPDATE MAP CHART       */
 
       // update colours
+      myColour = d3.scaleSequential().domain(d3.extent(newmaxgroupperstate)).interpolator(d3.interpolateReds);
+
+      // update colours on chart
       mapchart.data(data.features)
         .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])});
+
+
+      // sort range for legend
+      var newmax = Math.floor(d3.max(newmaxgroupperstate.slice(0,8))/10)*10;
+      var newmin = Math.ceil(d3.min(newmaxgroupperstate.slice(0,8))/10)*10;
+      var newsteps = (newmax === 0)? 0 : (newmax>10) ? Math.floor((newmax-newmin)/4/10)*10: 2;
+      var newrange = [newmax, newmax-newsteps,newmax-2*newsteps,newmax-3*newsteps,newmin];
+      var newlegendmap = legendmap.selectAll("rect").data(newrange);
+
+      // add square for each infection rate band
+      newlegendmap
+      .enter()
+      .append("rect")
+      .merge(newlegendmap)
+        .attr("x", 0)
+        .attr("y", function(d,i){ return 60 + i*20})
+        .attr("width", 20)
+        .attr("height",20)
+        .attr("stroke","gray")
+        .style("fill", function(d){ console.log(d); return myColour(d)});
+
+      var newtext = legendmap.selectAll("text").data(newrange)
+
+      // add name range next to each square
+      newtext
+      .enter()
+      .append("text")
+      .merge(newtext)
+        .attr("class","maplabels")
+        .attr("font-family", "sans-serif")
+        .attr("x", 25)
+        .attr("y", function(d,i){ return 70 + i*20}) 
+        .text(function(d,i){ return (i >0 && i<4) ? Math.round(newrange[i]) + " - " + Math.round(newrange[i+1]) : (i <4 ) ? ">"+Math.round(newrange[i+1]) : "<"+Math.round(newrange[i]) })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle");
+
+        // update tooltip data
+        maptoolTip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([0, 0])
+        .html(d => { i = data.features.map(d => d.properties.STATE_NAME).indexOf(d.properties.STATE_NAME)
+              return (`<h6>${d.properties.STATE_NAME}</h6><h6>${groupoption}</h6><h6>Total Infection Rate:  ${Math.round(newmaxgroupperstate[i])}</h6>`)});
+    
+        // add tooltip to map
+        mapchart.call(maptoolTip);
 
 
   /*     UPDATE BAR CHART      */

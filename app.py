@@ -26,7 +26,7 @@ def index():
 
 
 
-@app.route("/list")
+@app.route("/second")
 def default():
     # list of unquie disease groups for dropdown
     return render_template('./second.html')

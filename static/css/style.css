@@ -3,9 +3,11 @@
   border: 1px solid #e3e3e3;
 } */
 
-.container {
-  padding: 0;
-  border:0;
+
+
+.container-xxl {
+  padding: 10;
+  border:10;
 }
 
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
@@ -17,6 +19,7 @@ html {
 body {
   /* Padding bottom by footer height */
   padding-bottom: 80px;
+  background-color: #f0f0f0;
 }
 
 #footer {
@@ -42,3 +45,9 @@ body {
 .state:hover {
   fill: green;
 }
+
+/* @media (min-width: 1200px) {
+  .container{
+      max-width: 970px;
+  }
+} */
