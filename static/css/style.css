@@ -21,6 +21,10 @@ body {
   padding-bottom: 80px;
   background-color: #f0f0f0;
 }
+#heading {
+  background: rgb(28,28,28);
+  background: linear-gradient(90deg, rgba(28,28,28,1) 0%, rgba(134,134,136,1) 50%, rgba(213,213,219,1) 100%);
+}
 
 #footer {
   position: absolute;
