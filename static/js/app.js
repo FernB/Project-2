@@ -628,8 +628,6 @@ d3.json("/api/data", function(apidata) {
         .on("mouseleave", mouseleavesb);
 
 
-
-
     /*     UPDATE LINE CHART    */
 
       // nest data filtred by disease group on disease name
@@ -710,9 +708,9 @@ d3.json("/api/data", function(apidata) {
 
 
       // sort range for legend
-      var newmax = Math.floor(d3.max(newmaxgroupperstate)/10)*10;
-      var newmin = Math.ceil(d3.min(newmaxgroupperstate)/10)*10;
-      var newsteps = (newmax === 0)? 0 : (newmax>10) ? Math.floor((newmax-newmin)/4/10)*10: 2;
+      var newmax = Math.ceil(d3.max(newmaxgroupperstate)/10)*10;
+      var newmin = Math.floor(d3.min(newmaxgroupperstate)/10)*10;
+      var newsteps = (newmax === 0)? 0 : (newmax>10) ? Math.floor((newmax-newmin)/4/10)*10: 1;
       var newrange = [newmax, newmax-newsteps,newmax-2*newsteps,newmax-3*newsteps,newmin];
       var newlegendmap = legendmap.selectAll("rect").data(newrange);
 
