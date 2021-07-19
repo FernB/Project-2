@@ -42,6 +42,19 @@ body {
   font-size: 16px;
 }
 
+#icon {
+  position: relative;
+  
+}
+
+.pic {
+  position: absolute;
+  top: 73px;
+  left:35px;
+}
+
+
+
 /* .bar {
   fill: orange;
 } */

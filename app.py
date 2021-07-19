@@ -26,10 +26,10 @@ def index():
 
 
 
-@app.route("/second")
+@app.route("/home")
 def default():
     # list of unquie disease groups for dropdown
-    return render_template('./second.html')
+    return render_template('./home.html')
     
     # Diseasegroups = Base.classes.DiseaseGroups
 

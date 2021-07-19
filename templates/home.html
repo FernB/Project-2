@@ -1,46 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Notifiable Infection Rates</title>
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-  <!-- <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="stylesheet" href="/assets/css/d3Style.css"> -->
-  <!-- <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
-  <!-- <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
-  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-  crossorigin=""/> -->
-
-  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <script src="https://d3js.org/d3.v4.js"></script>
-  <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-
   <link rel="stylesheet" type="text/css" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/d3Style.css">
-
-    
-  
-
 </head>
-
 <body>
 
-  <nav class="navbar navbar-light bg-light navbar-expand-md sticky-top">
-    <a href="index.html" class="navbar-brand h1 text-light">Latitude</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+    <a class="navbar-brand" href="#">
+    
+      </div>
+    
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+          <li class="nav-item active">
               <a href="comparison.html" class="nav-link">
                     <!-- bootstrap glyphicon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
@@ -49,15 +36,12 @@
                     </svg>Home</a>
             </li>
             <li class="nav-item">
-                <a href="second.html" class="nav-link"> 
-                  
+                <a href="/" class="nav-link"> 
                   <!-- bootstrap glyphicon -->
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-                    <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+                    <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/> -->
                   </svg>
-                  
                   Interactive Chart</a>
-                   
             </li>
             <li class="nav-item">
                 <a href="df.html" class="nav-link">  
@@ -67,66 +51,121 @@
                       <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                     </svg>
                 About Us
-                
                 </a>
             </li>
         </ul>
     </div>
-
 </nav>
-
-
-
-      <div class="container">
+      <div class="container-fluid">
+        <div class="row p-5" id="heading">
+          <h1 class="text-light text-center">Notifiable Disease Infection Rates in Australia</h1>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+        <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/mosquito.png"/></div></div>
+      </div>
+      </div>
 
       <div class="row">
-      <select id="selectButton"></select>
-      <select id="selectYear"></select>
+        <div class="col-sm-6">
+
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/syringe.png"/></div></div>
     </div>
+  </div>
 
-        <div class="row">
-          <div id="map" class="col-sm-6">
-        </div>
-        <div id="bar" class="col-sm-6">
-         
+  <div class="row">
+    <div class="col-sm-6">
 
-        </div>
-</div>
-        <div class="row">
-          <div id="scatter" class="col-sm-6"></div>
-            <!-- <div id="legend" class="col-sm-1"></div> -->
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/bat.png"/></div></div>
 
-            <div id="stackedbar" class="col-sm-6"></div>
-        </div>
-        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/drop-of-blood.png"/></div></div>
+
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-6">
+
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/condom-package--v1.png"/></div></div>
+
+    </div>
+  </div>
+    
+  <div class="row">
+    <div class="col-sm-6">
+
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/stomach.png"/></div></div>
+     
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+    
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/quarantine.png"/></div></div>
+     
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+    
+      <div id="icon"><div class="pic"><img id="mosquito" src="https://img.icons8.com/ios-filled/50/000000/virus.png"/></div></div>
+
+    </div>
+  </div>
+
+    
+
+<!-- 
+
+      
+
+        <a href="https://icons8.com/icon/9224/mosquito">Mosquito icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/50/000000/syringe.png"/>
+
+        <a href="https://icons8.com/icon/9565/syringe">Syringe icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/50/000000/bat.png"/>
+        <a href="https://icons8.com/icon/10170/bat">Bat icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/50/000000/drop-of-blood.png"/>
+        <a href="https://icons8.com/icon/vurh7-um5eMM/drop-of-blood">Drop of Blood icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/50/000000/condom-package--v1.png"/>
+        <a href="https://icons8.com/icon/60569/contraception">Contraception icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/30/000000/stomach.png"/>
+        <a href="https://icons8.com/icon/92132/stomach">Stomach icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/30/000000/quarantine.png"/>
+        <a href="https://icons8.com/icon/l7xUPkFktUMt/quarantine">Quarantine icon by Icons8</a>
+
+        <img src="https://img.icons8.com/ios-filled/30/000000/virus.png"/>
+        <a href="https://icons8.com/icon/9512/virus">Virus icon by Icons8</a> -->
+
+        
       </div>
- 
-
   <!-- Footer-->
   <div id="footer">
-  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top"></nav>
+    <blockquote class="blockquote">
+      <p class="mb-0">DATA WILL TALK TO YOU IF YOU'RE WILLING TO LISTEN.</p>
+      <footer class="blockquote-footer">JIM
+        <cite title="Source Title">BERGESON</cite>
+      </footer>
+    </blockquote>
   </div>
-  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
 
-    <!-- Leaflet JS -->
-    <!-- <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-    crossorigin=""></script> -->
-
-
-      <!-- API key -->
-      <!-- <script type="text/javascript" src="/static/js/config.js"></script> -->
-
-
-  <script src="/static/js/app.js"></script>
-  
-
+  <script src="/static/js/icon.js"></script>
 </body>
-
 </html>

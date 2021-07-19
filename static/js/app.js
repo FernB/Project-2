@@ -33,36 +33,34 @@ d3.json("/api/data", function(apidata) {
     .attr("value", d => d);
 
   // data filtered by disease group
-  var f = apidata.filter(function(d) { return d.Disease_Group===groupoption});
+  var f = apidata.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
     
   // data filtered by state 
   var statefiltered = f.filter(function(d) { return d.Location===locationoption});
 
   // data filtered by year
-  var yearfiltered = apidata.filter(function(d) { return d.Year===yearoption});
+  var yearfiltered = apidata.filter(function(d) { return d.Year===yearoption}).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
 
   // data filtered by location and year
-  var alllocation = apidata.filter(d=>d.Location===locationoption).filter(d=>d.Year===yearoption);
-
-  // no idea
-  var fd = d3.map(apidata, function(d){return(d.Location)}).keys();
+  var alllocation = apidata.filter(d=>d.Location===locationoption).filter(d=>d.Year===yearoption).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
 
 
-    dtt = d3.map(f, function(d) {return(d.Disease)}).keys();
+
+    // dtt = d3.map(f, function(d) {return(d.Disease)}).keys();
   
 
-  // array of state names from geojson
-  var fullstatenames = ["New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"];
-    
-  // array of state abbreviations from database
-  var stateabbr = ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT", "Aust", "Last 5yearsmean"];
-    
-  // map total rate of infection for each state per group and year
-  var maxgroupperstate = stateabbr.map(state => d3.sum(apidata.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===yearoption).map(d => d.Infection_Rate)));
 
   // get states geojson data
   d3.json("/static/data/australian-states.min.geojson", function(data){
   
+  // array of state names from geojson
+  var fullstatenames = ["New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"];
+    
+  // array of state abbreviations from database
+  var stateabbr = ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"];
+    
+  // map total rate of infection for each state per group and year
+  var maxgroupperstate = stateabbr.map(state => d3.sum(apidata.filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===yearoption).map(d => d.Infection_Rate)));
 
   /* MAP CHART */
   
@@ -465,17 +463,8 @@ d3.json("/api/data", function(apidata) {
       .domain(allGroups)
       .range(d3.schemeCategory10);
 
-    // intialise tool tip for stacked bar
-    var sbtooltip = d3.tip()
-    .attr("class","d3-tip")
-    .offset([-20,10]);
-
-    
     // mouseover function to highlight all bars within group
     var mouseoversb = function(d) {
-      
-      // get name of group
-      var subgroupName = d3.select(this.parentNode).attr("class"); 
     
       // change opacity of all rectangles to dim
       svgsb.selectAll("rect").style("opacity",0.2);
@@ -483,18 +472,12 @@ d3.json("/api/data", function(apidata) {
       // change opacity of selected group rectangles to hightlight
       d3.select(this.parentNode).selectAll("rect").style("opacity", 1);
 
-      // show tooltip and set html as group
-      sbtooltip.show(d, this).html(`<h6>${subgroupName.replace("myRect ", "")}</h6>`);
-
     };
 
     // return to original opacitiy on mousout
     var mouseleavesb = function(d) {
       d3.selectAll("rect")
         .style("opacity",0.8);
-
-      //hid tip
-      sbtooltip.hide(d)
       };
 
     // nested loop to append group for each disease group then bars for each location
@@ -516,8 +499,6 @@ d3.json("/api/data", function(apidata) {
         .on("mouseover", mouseoversb)
         .on("mouseleave", mouseleavesb);
 
-      // attach tooltips to stacked bar chart
-      stackedbar.call(sbtooltip);
 
       // append legend svg to stacked bar div
       var legendsb = d3.select("#stackedbar")
@@ -573,7 +554,7 @@ d3.json("/api/data", function(apidata) {
     function updateCharts() {
 
       // data filtered by location  
-      var newlocation = apidata.filter(d=>d.Location===locationoption);
+      var newlocation = apidata.filter(d=>d.Location===locationoption).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
 
       // data filtered by disease group and location
       var newdata = newlocation.filter(function(d) { return d.Disease_Group===groupoption});
@@ -585,13 +566,10 @@ d3.json("/api/data", function(apidata) {
       .entries(newlocation.filter(d=>d.Year===+yearoption));
 
       // data filtered by year only
-      var newyearfiltered = apidata.filter(function(d) { return d.Year===+yearoption});
-
-      // filter out aus and 5yearmean
-      var newfinalfiltered = newyearfiltered.filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
+      var newyearfiltered = apidata.filter(function(d) { return d.Year===+yearoption}).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
       
       // year filtered data nested by location and disease group rolled up to sum total infection rate
-      var newnestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(newfinalfiltered);
+      var newnestedyeargroup = d3.nest().key(d=>d.Location).key(d=>d.Disease_Group).rollup(function(leaves) {return d3.sum(leaves, d => d.Infection_Rate)}).entries(newyearfiltered);
 
 
   /*   UPDATE STACKED BAR CHART    */
@@ -605,6 +583,7 @@ d3.json("/api/data", function(apidata) {
         });
         newflatten.push(obj);
       });
+
 
       // stack flattened data by disease groups
       var newstackedData = d3.stack()
@@ -649,6 +628,8 @@ d3.json("/api/data", function(apidata) {
         .on("mouseleave", mouseleavesb);
 
 
+
+
     /*     UPDATE LINE CHART    */
 
       // nest data filtred by disease group on disease name
@@ -657,8 +638,8 @@ d3.json("/api/data", function(apidata) {
         .entries(newdata);
 
       // filter by location, group and year for each state 
-      var newmaxgroupperstate = stateabbr.map(state => d3.max(apidata
-      .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===+yearoption).map(d => d.Infection_Rate)));
+      var newmaxgroupperstate = stateabbr.map(state => d3.sum(apidata
+      .filter(function(d) { return d.Disease_Group===groupoption}).filter(function(d) { return d.Location===state}).filter(d=>d.Year===+yearoption).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" }).map(d => d.Infection_Rate)));
 
       // change colour scale for each state
       myColour = d3.scaleSequential().domain(d3.extent(newmaxgroupperstate)).interpolator(d3.interpolateReds);
@@ -725,12 +706,12 @@ d3.json("/api/data", function(apidata) {
 
       // update colours on chart
       mapchart.data(data.features)
-        .attr("fill", function(d,i) { return myColour(newmaxgroupperstate[i])});
+        .attr("fill", function(d,i) {return myColour(newmaxgroupperstate[i])});
 
 
       // sort range for legend
-      var newmax = Math.floor(d3.max(newmaxgroupperstate.slice(0,8))/10)*10;
-      var newmin = Math.ceil(d3.min(newmaxgroupperstate.slice(0,8))/10)*10;
+      var newmax = Math.floor(d3.max(newmaxgroupperstate)/10)*10;
+      var newmin = Math.ceil(d3.min(newmaxgroupperstate)/10)*10;
       var newsteps = (newmax === 0)? 0 : (newmax>10) ? Math.floor((newmax-newmin)/4/10)*10: 2;
       var newrange = [newmax, newmax-newsteps,newmax-2*newsteps,newmax-3*newsteps,newmin];
       var newlegendmap = legendmap.selectAll("rect").data(newrange);
@@ -745,7 +726,7 @@ d3.json("/api/data", function(apidata) {
         .attr("width", 20)
         .attr("height",20)
         .attr("stroke","gray")
-        .style("fill", function(d){ console.log(d); return myColour(d)});
+        .style("fill", function(d){return myColour(d)});
 
       var newtext = legendmap.selectAll("text").data(newrange)
 
