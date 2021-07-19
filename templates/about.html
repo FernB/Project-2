@@ -62,40 +62,74 @@
         </div>
         <div class="row m-5 p-5">
           <h2 class="text-center">The Data</h2>
+          <p> The key source of data was the National Notifiable Diseases Surveillance System: <a href="http://www9.health.gov.au/cda/source/rpt_2.cfm"> http://www9.health.gov.au/cda/source/rpt_2.cfm. </a> This website can generate reports on notified cases by State, Year, Disease Grouping and Disease. </p>
 
+          <p>This data was selected as the Authors wish to investigate trends in infection rates between States and develop a tool that could be used to guide public health funding</p>
 
+          <p>Data was obtained from the site using a Python application developed by the Authors. The application utilises the Splinter and Pandas Libraries to scrape data then the SQLAlchemy Libary to store this data in a SQLite Database.</p>
+
+          <p>An SQLAlchemy/Flask application was developed to create an API that could read data from the SQLite database into JavaScript</p>
+
+          <p>All charts were created and analysis was performed using the D3.js Libary. The charts are desgined to allow users to explore the dataset and compare infection rates by disease grouping, state, year and invidual diseases.</p>
+
+          
         </div>
-        <div class="row m-5 p-5">
+        <div class="row m-5 p-5 px-10 mx-10">
           <h2 class="text-center">Other References</h2>
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Title</th>
                 <th scope="col">URL</th>
-                <th scope="col">Handle</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">1</th>
                 <td>Australian States GeoJSON</td>
                 <td><a href="https://github.com/tonywr71/GeoJson-Data/blob/master/australian-states.min.geojson">https://github.com/tonywr71/GeoJson-Data/blob/master/australian-states.min.geojson</a></td>
-                <td>@mdo</td>
               </tr>
               <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+                <td>D3 Colour Scales</td>
+                <td><a href="https://github.com/d3/d3-scale-chromatic">https://github.com/d3/d3-scale-chromatic</a></td>
               </tr>
               <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
+                <td>D3 Geo Projection</td>
+                <td><a href="https://github.com/d3/d3-geo">https://github.com/d3/d3-geo</a></td>
+              </tr>
+              <tr>
+                <td>CSS Colour Gradient Generator</td>
+                <td><a href="https://cssgradient.io">https://cssgradient.io/</a></td>
+              </tr>
+              <tr>
+                <td>All Icons</td>
+                <td><a href="https://icons8.com/">https://icons8.com/</a></td>
+              </tr>
+              <tr>
+                <td>Splinter</td>
+                <td><a href="https://splinter.readthedocs.io/en/latest/">https://splinter.readthedocs.io/en/latest/</a></td>
+              </tr>
+              <tr>
+                <td>WHO Factsheet</td>
+                <td><a href="https://www.who.int/news-room/fact-sheets/detail/zoonoses">https://www.who.int/news-room/fact-sheets/detail/zoonoses</a></td>
+              </tr>
+              <tr>
+                <td>WHO Factsheet</td>
+                <td><a href="https://www.who.int/news-room/fact-sheets/detail/sexually-transmitted-infections-(stis)">https://www.who.int/news-room/fact-sheets/detail/sexually-transmitted-infections-(stis)</a></td>
+              </tr>
+              <tr>
+                <td>Health Direct Factsheet</td>
+                <td><a href="https://www.healthdirect.gov.au/mosquito-borne-diseases">https://www.healthdirect.gov.au/mosquito-borne-diseases</a></td>
+              </tr>
+              <tr>
+                <td>Health Factsheet</td>
+                <td><a href="https://www1.health.gov.au/internet/main/publishing.nsf/Content/health-pubhlth-strateg-communic-vpd.htm">https://www1.health.gov.au/internet/main/publishing.nsf/Content/health-pubhlth-strateg-communic-vpd.htm</a></td>
               </tr>
             </tbody>
           </table>
+          </div>
+          <div class="col-sm-3"></div>
 
         </div>
 

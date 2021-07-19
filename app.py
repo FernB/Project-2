@@ -28,13 +28,11 @@ def index():
 
 @app.route("/home")
 def default():
-    # list of unquie disease groups for dropdown
     return render_template('./home.html')
     
  
 @app.route("/about")
 def about():
-    # list of unquie disease groups for dropdown
     return render_template('./about.html')
 
 
