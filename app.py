@@ -31,31 +31,11 @@ def default():
     # list of unquie disease groups for dropdown
     return render_template('./home.html')
     
-    # Diseasegroups = Base.classes.DiseaseGroups
-
-    # session = Session(engine)
-
-    # results = session.query(Diseasegroups.DiseaseGroup).group_by(Diseasegroups.DiseaseGroup).all()
-    # all_names = Base.classes.keys()
-
-    
-    # inspector = inspect(engine)
-    # all_names = inspector.get_table_names()
-
-    # columns = inspector.get_columns('DiseaseGroups')
-    
-    # all_names = []
-
-    # for c in columns:
-    #     all_names.append(c['name'])
-
-
-    # session.close()
-
-    # all_names = list(np.ravel(results))
-
-    # return jsonify(all_names)
-
+ 
+@app.route("/about")
+def about():
+    # list of unquie disease groups for dropdown
+    return render_template('./about.html')
 
 
 
