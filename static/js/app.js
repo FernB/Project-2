@@ -405,7 +405,7 @@ d3.json("/api/data", function(apidata) {
 /*  STACKED BAR CHART  */
 
     // set margins and widths of stacked bar svg
-    var marginsb = {top: 10, right: 30, bottom: 20, left: 50},
+    var marginsb = {top: 10, right: 30, bottom: 30, left: 50},
         widthsb = 460 - marginsb.left - marginsb.right,
         heightsb = 400 - marginsb.top - marginsb.bottom;
 
@@ -818,7 +818,7 @@ d3.json("/api/data", function(apidata) {
       //update summarys
       d3.select("#mapsummary").html(`Total Infection Rates for ${groupoption} in ${yearoption}`)
       d3.select("#barsummary").html(`Disease Group Infection Rates for ${locationoption} in ${yearoption}`)
-      d3.select("#linesummary").html(`Infection Rates for ${groupoption} in <br> ${locationoption} between 2015 and 2020`)
+      d3.select("#linesummary").html(`Infection Rates for ${groupoption} in ${locationoption} between 2015 and 2020`)
       d3.select("#sbsummary").html(`Disease Group Infection Rates in all States in ${yearoption}`)
       
 
