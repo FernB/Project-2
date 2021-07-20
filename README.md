@@ -92,14 +92,14 @@ Zoonoses has low infection rates across Australia and it's occurance is effectiv
 The most frequently occuring disease groups across Australia were Sexually Transimissable Infections, Vaccine Preventable Diseases and Gastrointestinal Diseases.
 
 Key diseases from each group were:
-	* Sexually Transimissable Infections
+	- Sexually Transimissable Infections
 		- Chlamydial Infection
 		- Gnonoccal Infection
-	* Gastrointestinal Infections
+	- Gastrointestinal Infections
 		- Salmonellosis
 		- Campylobacteriosis
 		- Cryptosporidiosis
-	* Vaccine Preventable Diseases
+	 Vaccine Preventable Diseases
 		- Influenza
 		- Varicella Zoster (Shingles)
 
@@ -138,7 +138,8 @@ of the data set while still highlighting key areas that require additional inter
 
 
 ## Contributors
-:small_blue_diamond: Amin Sundrani: ![@AminSundrani](https://github.com/AminSundrani)
-:small_blue_diamond: Fern Bradder: ![@FernB](https://github.com/FernB)
-:small_blue_diamond: Hideaki Kaneko: ![@hide-890302](https://github.com/hide-890302)
-:small_blue_diamond: Rebecca Gould: ![@Bec-Gould](https://github.com/Bec-Gould)
+
+:small_blue_diamond: Amin Sundrani: [@AminSundrani](https://github.com/AminSundrani)
+:small_blue_diamond: Fern Bradder: [@FernB](https://github.com/FernB)
+:small_blue_diamond: Hideaki Kaneko: [@hide-890302](https://github.com/hide-890302)
+:small_blue_diamond: Rebecca Gould: [@Bec-Gould](https://github.com/Bec-Gould)
