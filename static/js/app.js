@@ -226,7 +226,7 @@ d3.json("/api/data", function(apidata) {
     var res = nestedbydisease.map(function(d){ return d.key });
     var color = d3.scaleOrdinal()
     .domain(res)
-    .range(d3.schemeCategory10);
+    .range(d3.schemeDark2);
 
     // bind data to line group and draw lines for each disease
     var dataPlot = svgline.selectAll(".line")
@@ -461,7 +461,7 @@ d3.json("/api/data", function(apidata) {
     // create colour scale based on groups
     var colorsb = d3.scaleOrdinal()
       .domain(allGroups)
-      .range(d3.schemeCategory10);
+      .range(d3.schemeDark2);
 
     // mouseover function to highlight all bars within group
     var mouseoversb = function(d) {
@@ -669,7 +669,7 @@ d3.json("/api/data", function(apidata) {
       // update colour scale based on new list
       var newcolor = d3.scaleOrdinal()
         .domain(newres)
-        .range(d3.schemeCategory10);
+        .range(d3.schemeDark2);
 
       // bind new data to path, filter domain so only chart lines are changed
       var newplot = svgline.selectAll("path").filter(function() {
@@ -708,10 +708,11 @@ d3.json("/api/data", function(apidata) {
 
 
       // sort range for legend
-      var newmax = Math.ceil(d3.max(newmaxgroupperstate)/10)*10;
-      var newmin = Math.floor(d3.min(newmaxgroupperstate)/10)*10;
-      var newsteps = (newmax === 0)? 0 : (newmax>10) ? Math.floor((newmax-newmin)/4/10)*10: 1;
-      var newrange = [newmax, newmax-newsteps,newmax-2*newsteps,newmax-3*newsteps,newmin];
+      var newmax = (d3.max(newmaxgroupperstate) > 100) ? Math.floor(d3.max(newmaxgroupperstate)/10)*10 : d3.max(newmaxgroupperstate);
+      var newmin = (d3.min(newmaxgroupperstate) > 100) ? Math.ceil(d3.min(newmaxgroupperstate)/10)*10 : d3.min(newmaxgroupperstate);
+      var newsteps = (newmax === 0)? 0 : ((newmax-newmin)>20) ? Math.floor((newmax-newmin)/4/10)*10: 1;
+      var newrange = ((newmax-3*newsteps)>newmin) ? [newmax, newmax-newsteps,newmax-2*newsteps,newmax-3*newsteps,newmin] : [newmax, newmax-newsteps,newmax-2*newsteps,newmax-3*newsteps,newsteps] ;
+      
       var newlegendmap = legendmap.selectAll("rect").data(newrange);
 
       // add square for each infection rate band
@@ -816,10 +817,10 @@ d3.json("/api/data", function(apidata) {
         .remove();
 
       //update summarys
-      d3.select("#mapsummary").html(`Total Infection Rates for ${groupoption} in ${yearoption}`)
-      d3.select("#barsummary").html(`Disease Group Infection Rates for ${locationoption} in ${yearoption}`)
-      d3.select("#linesummary").html(`Infection Rates for ${groupoption} in ${locationoption} between 2015 and 2020`)
-      d3.select("#sbsummary").html(`Disease Group Infection Rates in all States in ${yearoption}`)
+      d3.select("#mapsummary").html(`Total Infection Rates per 100,000 population for ${groupoption} in ${yearoption}`)
+      d3.select("#barsummary").html(`Disease Group Infection Ratesper 100,000 population for ${locationoption} in ${yearoption}`)
+      d3.select("#linesummary").html(`Infection Rates per 100,000 population for ${groupoption} in ${locationoption} between 2015 and 2020`)
+      d3.select("#sbsummary").html(`Disease Group Infection Rates per 100,000 population in all States in ${yearoption}`)
       
 
 
