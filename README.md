@@ -79,30 +79,66 @@ The page was created using:
 
 ![chart](images/pic1.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The Northern Territory experienced the highest infection rates in Bloodborne Diseases, Gastrointestinal Dieaseses and Vectorborne Diseases across the majority of years. Notably Sexually Transmissable Infections were several magnitudes higher than the rest of Australia.
+Vectorborne disease rates were also high in Queensland and overtook NT in 2020.
+Zoonoses has low infection rates across Australia and it's occurance is effectively limited to Queensland.
+
+
 
 ### Question 2: Which disease groups are occurring most frequently? 
 
 ![chart](images/pic2.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The most frequently occuring disease groups across Australia were Sexually Transimissable Infections, Vaccine Preventable Diseases and Gastrointestinal Diseases.
 
-### Question 3: Which disease groups are contributing the most to infection rates?
+Key diseases from each group were:
+	*Sexually Transimissable Infections
+		-Chlamydial Infection
+		-Gnonoccal Infection
+	*Gastrointestinal Infections
+		-Salmonellosis
+		-Campylobacteriosis
+		-Cryptosporidiosis
+	*Vaccine Preventable Diseases
+		- Influenza
+		- Varicella Zoster (Shingles)
+
+### Question 3: How are the rates progressing over time? 
 
 ![chart](images/pic3.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In general disease rates across all groups are decreasing over time. Of the Vaccine Preventable Diseases, 
+Shingles has a constistant trend, whereas Influenza experiences distinctive spikes (2017 and 2019). 2020 experienced a record low of infection rates across Australia
+
+Sexually Transmissable Infections have experienced increases over time, especially Chlamidia. However, in 2020 there was a marked decline infections.
+
 
 ### Question 4: How are the rates progressing over time? 
 
 ![chart](images/pic4.png)
 
+
+
 ![chart](images/pic5.png)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
+## Summary
+
+Our analysis indicates that sexual health and hygiene, vaccine programs and food safety and hygiene are key areas that require improvement to minimise observed infection rates.
+It was also observed that COVID-19 related increased hygiene practices, restricted movements and physical distancing may have had an impact in the reduction of many disease infection rates in 2020.
+
+Incorporation of other statistics including infections by age group, socio-economic indexes for areas and other related data into the analysis would enable a reconstructive analysis
+to identify key risk factors and establish early interventions.
+  
+This webpage provides a dashboard that can be manipulated by the user to view trends in the infection rates across the States and Territories, through all disease groups and over time.
+The filters and interactions can provide a high level overview of the data as well as a more granular analysis. This allows the user to experience a greater control over their interpretation 
+of the data set while still highlighting key areas that require additional interventions.
+
+
+
 ## Contributors
-:small_blue_diamond: Amin Sundrani [@AminSundrani](https://github.com/AminSundrani)
-:small_blue_diamond: Fern Bradder [@FernB](https://github.com/FernB)
-:small_blue_diamond: Hideaki Kaneko [@hide-890302](https://github.com/hide-890302)
-:small_blue_diamond: Rebecca Gould [@Bec-Gould](https://github.com/Bec-Gould)
+:small_blue_diamond: Amin Sundrani: [@AminSundrani](https://github.com/AminSundrani)
+:small_blue_diamond: Fern Bradder: [@FernB](https://github.com/FernB)
+:small_blue_diamond: Hideaki Kaneko: [@hide-890302](https://github.com/hide-890302)
+:small_blue_diamond: Rebecca Gould: [@Bec-Gould](https://github.com/Bec-Gould)
