@@ -6,9 +6,14 @@
 ## Introduction
 
 The aim of this project was to investigate data from the National Notifiable Disease Surveillance System (NNDSS) and establish 
-what trends could be observed 
-For our project we looked at the NNDSS dataset and focused on all diseases by state and years 2015-2020. 
-Using visualization we compared the states by disease category to identify any trends. 
+what trends could be observed.
+
+Data between 2015 and 2020 on infection rates per 100,000 people was extracted from the website, transformed into a comparable dataset and loaded into an SQLite database.
+
+An SQLAclhemy/Flask API was created to allow data to be used in a D3.js web application that was launched on Heroku.
+
+The application consists of an interactive dashboard of four visualisations depicting comparisons of infection rates across disease groups, states and territories and years.
+
 
 
 ## Structure
@@ -38,7 +43,6 @@ project
 |__ Webscrape and database.ipynb    # webscraping notebook and creation of database
 
 ```
-
 
 ## Usage
 
@@ -84,7 +88,7 @@ Two additional d3 extensions utilised were:
 
 ### Question 1: Which states are experiencing the highest infection rates? 
 
-![chart](images/pic1.png)
+![chart](images/pic5.png)
 
 The Northern Territory experienced the highest infection rates in Bloodborne Diseases, Gastrointestinal Dieaseses and Vectorborne Diseases across the majority of years. 
 Notably Sexually Transmissable Infections were several magnitudes higher than the rest of Australia. The Northern Territory's Sexual Health and Bloodborne Viruses Unit (https://health.nt.gov.au/professionals/centre-for-disease-control/cdc-programs-and-units/sexual-health-and-blood-borne-viruses)
@@ -94,6 +98,10 @@ Vectorborne disease rates were also high in Queensland and overtook NT in 2020. 
 
 Zoonoses has low infection rates across Australia and it's occurance is effectively limited to Queensland. Leptospirosis is the key disease in this group and is mainly associated with exposure to rodent urine
 in agricultural workers.
+
+![chart](images/pic3.png)
+
+South Australia experiences a higher rate of Vaccine Preventable Diseases compared with other States and Territories.
 
 
 ### Question 2: Which disease groups are occurring most frequently? 
@@ -116,7 +124,7 @@ Key diseases from each group were:
 
 ### Question 3: How are the rates progressing over time? 
 
-![chart](images/pic3.png)
+![chart](images/pic4.png)
 
 In general disease rates across all groups are decreasing over time. Of the Vaccine Preventable Diseases, 
 Shingles has a constistant trend, whereas Influenza experiences distinctive spikes (2017 and 2019). 2020 experienced a record low of infection rates across Australia
@@ -124,13 +132,13 @@ Shingles has a constistant trend, whereas Influenza experiences distinctive spik
 Sexually Transmissable Infections have experienced increases over time, especially Chlamydia. However, in 2020 there was a marked decline infections.
 
 
-### Question 4: How are the rates progressing over time? 
+### Question 4: How can our tool be implemented? 
 
-![chart](images/pic4.png)
+![chart](images/pic1.png)
 
 
 
-![chart](images/pic5.png)
+
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
@@ -149,7 +157,8 @@ of the data set while still highlighting key areas that require additional inter
 
 
 ## Contributors
-:small_blue_diamond: Amin Sundrani: (https://github.com/AminSundrani) 
-:small_blue_diamond: Fern Bradder: (https://github.com/FernB) 
-:small_blue_diamond: Hideaki Kaneko: (https://github.com/hide-890302) 
-:small_blue_diamond: Rebecca Gould: (https://github.com/Bec-Gould) 
+
+ :small_blue_diamond: Amin Sundrani: (https://github.com/AminSundrani) 
+ :small_blue_diamond: Fern Bradder: (https://github.com/FernB) 
+ :small_blue_diamond: Hideaki Kaneko: (https://github.com/hide-890302) 
+ :small_blue_diamond: Rebecca Gould: (https://github.com/Bec-Gould) 
