@@ -81,7 +81,7 @@ Two additional d3 extensions utilised were:
 |No.|Source|Link|
 | -|-|-|
 |1|National Notifiable Diseases Surveillance System |http://www9.health.gov.au/cda/source/cda-index.cfm|
-|1|Australian Sates GeoJSON |https://github.com/tonywr71/GeoJson-Data/blob/master/australian-states.min.geojson|
+|2|Australian Sates GeoJSON |https://github.com/tonywr71/GeoJson-Data/blob/master/australian-states.min.geojson|
 
 
 ## Analysis
