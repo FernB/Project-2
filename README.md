@@ -156,7 +156,7 @@ of the data set while still highlighting key areas that require additional inter
 
 ## Contributors
 
-- [@AminSundrani](https://github.com/AminSundrani)
-- [@FernB](https://github.com/FernB)
-- [@hide-890302](https://github.com/hide-890302)
-- [@Bec-Gould](https://github.com/Bec-Gould)
+:small_blue_diamond: Amin Sundrani: (https://github.com/AminSundrani)  
+:small_blue_diamond: Fern Bradder: (https://github.com/FernB)  
+:small_blue_diamond: Hideaki Kaneko: (https://github.com/hide-890302)  
+:small_blue_diamond: Rebecca Gould: (https://github.com/Bec-Gould)  
