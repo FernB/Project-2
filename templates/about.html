@@ -1,83 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Notifiable Infection Rates</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <head>
+    <meta charset="UTF-8">
+    <title>Notifiable Infection Rates</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-  <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
 
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-  <link rel="stylesheet" href="/static/css/d3Style.css">
-</head>
-<body>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-    <a class="navbar-brand" href="#">
-    
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/d3Style.css">
+  </head>
+  <body>
+        <!-- navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"> </a>
       </div>
-    
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
               <a href="home" class="nav-link">
-                    <!-- bootstrap glyphicon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                      <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-                    </svg>Home</a>
+                <!-- bootstrap glyphicon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                </svg>
+                Home
+              </a>
             </li>
             <li class="nav-item">
-                <a href="/" class="nav-link"> 
-                  <!-- bootstrap glyphicon -->
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-                    <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/> -->
-                  </svg>
-                  Interactive Chart</a>
+              <a href="/" class="nav-link"> 
+                <!-- bootstrap glyphicon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                  <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/> -->
+                </svg>
+                Interactive Chart
+              </a>
             </li>
             <li class="nav-item">
-                <a href="about" class="nav-link">  
-                    <!-- bootstrap glyphicon -->      
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                    </svg>
+              <a href="about" class="nav-link">  
+                <!-- bootstrap glyphicon -->      
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>
                 About Us
-                </a>
-            </li>
-        </ul>
-    </div>
-</nav>
-      <div class="container-fluid">
-        <div class="row p-5" id="heading">
+              </a>
+              </li>
+          </ul>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row p-5" id="heading">
           <h1 class="text-light text-center">About This Page</h1>
+      </div>
+      <div class="row m-5 p-5">
+        <h2 class="text-center">The Data</h2>
+        <p> The key source of data was the National Notifiable Diseases Surveillance System: <a href="http://www9.health.gov.au/cda/source/rpt_2.cfm"> http://www9.health.gov.au/cda/source/rpt_2.cfm. </a> This website can generate reports on notified cases by State, Year, Disease Grouping and Disease. </p>
+        <p>This data was selected as the Authors wish to investigate trends in infection rates between States and develop a tool that could be used to guide public health funding</p>
+        <p>Data was obtained from the site using a Python application developed by the Authors. The application utilises the Splinter and Pandas Libraries to scrape data then the SQLAlchemy Libary to store this data in a SQLite Database.</p>
+        <p>An SQLAlchemy/Flask application was developed to create an API that could read data from the SQLite database into JavaScript</p>
+        <p>All charts were created and analysis was performed using the D3.js Libary. The charts are desgined to allow users to explore the dataset and compare infection rates by disease grouping, state, year and invidual diseases.</p>
+      </div>
+      <div class="row m-5 p-5 px-10 mx-10">
+        <h2 class="text-center">Other References</h2>
+        <div class="col-sm-3">
         </div>
-        <div class="row m-5 p-5">
-          <h2 class="text-center">The Data</h2>
-          <p> The key source of data was the National Notifiable Diseases Surveillance System: <a href="http://www9.health.gov.au/cda/source/rpt_2.cfm"> http://www9.health.gov.au/cda/source/rpt_2.cfm. </a> This website can generate reports on notified cases by State, Year, Disease Grouping and Disease. </p>
-
-          <p>This data was selected as the Authors wish to investigate trends in infection rates between States and develop a tool that could be used to guide public health funding</p>
-
-          <p>Data was obtained from the site using a Python application developed by the Authors. The application utilises the Splinter and Pandas Libraries to scrape data then the SQLAlchemy Libary to store this data in a SQLite Database.</p>
-
-          <p>An SQLAlchemy/Flask application was developed to create an API that could read data from the SQLite database into JavaScript</p>
-
-          <p>All charts were created and analysis was performed using the D3.js Libary. The charts are desgined to allow users to explore the dataset and compare infection rates by disease grouping, state, year and invidual diseases.</p>
-
-          
-        </div>
-        <div class="row m-5 p-5 px-10 mx-10">
-          <h2 class="text-center">Other References</h2>
-          <div class="col-sm-3"></div>
-          <div class="col-sm-6">
+        <div class="col-sm-6">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -103,9 +98,37 @@
                 <td><a href="https://cssgradient.io">https://cssgradient.io/</a></td>
               </tr>
               <tr>
-                <td>All Icons</td>
-                <td><a href="https://icons8.com/">https://icons8.com/</a></td>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/9224/mosquito">Mosquito icon by Icons8</a></td>
               </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/9565/syringe">Syringe icon by Icons8</a></td>
+              </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/10170/bat">Bat icon by Icons8</a></td>
+              </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/vurh7-um5eMM/drop-of-blood">Drop of Blood icon by Icons8</a></td>
+              </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/60569/contraception">Contraception icon by Icons8</a></td>
+              </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/92132/stomach">Stomach icon by Icons8</a></td>
+              </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/l7xUPkFktUMt/quarantine">Quarantine icon by Icons8</a></td>
+              </tr>
+              <tr>
+                <td>Icon</td>
+                <td><a href="https://icons8.com/icon/9512/virus">Virus icon by Icons8</a></td>
+              </tr>  
               <tr>
                 <td>Splinter</td>
                 <td><a href="https://splinter.readthedocs.io/en/latest/">https://splinter.readthedocs.io/en/latest/</a></td>
@@ -128,140 +151,123 @@
               </tr>
             </tbody>
           </table>
-          </div>
-          <div class="col-sm-3"></div>
-
         </div>
-
-        <div class="row m-5">
-          <h2 class="text-center">About The Authors</h2>
-
+        <div class="col-sm-3"></div>
         </div>
- 
-  <div class="row">
-
-      <div class="col-sm-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Amin Ali</h4>
-            <p class="card-text">Business Development Manager (IT)</p><p>Goal: To further develop my data analysis and visualisation skills through project based learning</p>
+      </div>
+      <div class="row m-5">
+        <h2 class="text-center">About The Authors</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card">
             <div class="card-body">
-            <a href="https://github.com/AminSundrani" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-            </svg> GitHub</a>
-            <a href="https://www.linkedin.com/in/amin-sundrani-08b705a0/" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
-              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
-            </svg> Linkedin Profile</a>
+              <h4 class="card-title">Amin Ali</h4>
+              <p class="card-text">Business Development Manager (IT)</p><p>Goal: To further develop my data analysis and visualisation skills through project based learning</p>
+              <div class="card-body">
+                <a href="https://github.com/AminSundrani" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                  </svg> 
+                  GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/amin-sundrani-08b705a0/" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                  <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                  </svg> 
+                  Linkedin Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Rebecca Gould</h4>
+              <p class="card-text">Office Manager (Telecommunications)</p> 
+              <p>Goal: To gain a broader understanding of data analysis tools through the completion of this course</p>
+              <div class="card-body">
+                <a href="https://github.com/Bec-Gould" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                  </svg> 
+                  Github
+                </a>
+                <a href="http://linkedin.com/in/rebecca-gould-778003154" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                  </svg> 
+                  Linkedin Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Hideaki Kaneko</h4>
+              <p class="card-text">Reliability Engineer (Oil & Gas)</p> 
+              <p>Goal: To acquire knowledge of Data Analytic techniques and apply them to maintenance evaluation</p>
+              <div class="card-body">
+                <a href="https://github.com/hide-890302" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                  </svg> 
+                  Github
+                </a>
+                <a href="https://www.linkedin.com/in/hideaki-kaneko-27186830/" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                  </svg> 
+                  Linkedin Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Fern Bradder </h4>
+              <p class="card-text">Technical Advisor (Water Quality)</p>
+              <p>Goal: To develop skills in data analysis and visualisation tools and use these to drive better decision making</p>
+              <div class="card-body">
+                <a href="https://github.com/FernB" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                  </svg> 
+                  Github
+                </a>
+                <a href="www.linkedin.com/in/fern-bradder-a15b30202" target="_blank" rel="noopener noreferrer" class="card-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                  </svg> 
+                  Linkedin Profile
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-sm-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Rebecca Gould</h4>
-            <p class="card-text">Office Manager (Telecommunications)</p> <p>Goal: To gain a broader understanding of data analysis tools through the completion of this course</p>
-            <div class="card-body">
-              <a href="https://github.com/Bec-Gould" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-              </svg> Github</a>
-              <a href="http://linkedin.com/in/rebecca-gould-778003154" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
-                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
-              </svg> Linkedin Profile</a>
-              </div>
-          </div>
-        </div>
-      </div>
+    <!-- Footer-->
+    <div id="footer">
+      <blockquote class="blockquote">
+        <p class="mb-0">DATA WILL TALK TO YOU IF YOU'RE WILLING TO LISTEN.</p>
+        <footer class="blockquote-footer">JIM
+          <cite title="Source Title">BERGESON</cite>
+        </footer>
+      </blockquote>
+    </div>
 
-      <div class="col-sm-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Hideaki Kaneko</h4>
-            <p class="card-text">Reliability Engineer (Oil & Gas)</p> <p>Goal: To acquire knowledge of Data Analytic techniques and apply them to maintenance evaluation</p>
-            <div class="card-body">
-              <a href="https://github.com/hide-890302" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-              </svg> Github</a>
-              <a href="https://www.linkedin.com/in/hideaki-kaneko-27186830/" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
-                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
-              </svg> Linkedin Profile</a>
-              </div>
-          </div>
-        </div>
-      </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
 
-
-      <div class="col-sm-3">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Fern Bradder </h4>
-            <p class="card-text">Technical Advisor (Water Quality)</p><p>Goal: To develop skills in data analysis and visualisation tools and use these to drive better decision making</p>
-            <div class="card-body">
-              <a href="https://github.com/FernB" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-              </svg> Github</a>
-              <a href="www.linkedin.com/in/fern-bradder-a15b30202" class="card-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
-                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
-              </svg> Linkedin Profile</a>
-              </div>
-          </div>
-        </div>
-
-
-  
-
-  <div class="row">
-
-
-    
-  </div>
- 
-
-    
-
-<!-- 
-
-      
-
-        <a href="https://icons8.com/icon/9224/mosquito">Mosquito icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/50/000000/syringe.png"/>
-
-        <a href="https://icons8.com/icon/9565/syringe">Syringe icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/50/000000/bat.png"/>
-        <a href="https://icons8.com/icon/10170/bat">Bat icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/50/000000/drop-of-blood.png"/>
-        <a href="https://icons8.com/icon/vurh7-um5eMM/drop-of-blood">Drop of Blood icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/50/000000/condom-package--v1.png"/>
-        <a href="https://icons8.com/icon/60569/contraception">Contraception icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/30/000000/stomach.png"/>
-        <a href="https://icons8.com/icon/92132/stomach">Stomach icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/30/000000/quarantine.png"/>
-        <a href="https://icons8.com/icon/l7xUPkFktUMt/quarantine">Quarantine icon by Icons8</a>
-
-        <img src="https://img.icons8.com/ios-filled/30/000000/virus.png"/>
-        <a href="https://icons8.com/icon/9512/virus">Virus icon by Icons8</a> -->
-
-        
-      </div>
-  <!-- Footer-->
-  <div id="footer">
-    <blockquote class="blockquote">
-      <p class="mb-0">DATA WILL TALK TO YOU IF YOU'RE WILLING TO LISTEN.</p>
-      <footer class="blockquote-footer">JIM
-        <cite title="Source Title">BERGESON</cite>
-      </footer>
-    </blockquote>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-
-  <script src="/static/js/icon.js"></script>
-</body>
+    <script src="/static/js/icon.js"></script>
+  </body>
 </html>
