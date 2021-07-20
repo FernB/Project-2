@@ -73,7 +73,7 @@ Two additional d3 extensions utilised were:
 1. Which states are experiencing the highest infection rates by disease group?
 2. Which disease groups are occurring most frequently?
 3. How are the rates progressing over time?
-4. How are the rates progressing over time? 
+4. How can our application be implemented? 
 
 
 ## Datasets 
@@ -132,15 +132,13 @@ Shingles has a constistant trend, whereas Influenza experiences distinctive spik
 Sexually Transmissable Infections have experienced increases over time, especially Chlamydia. However, in 2020 there was a marked decline infections.
 
 
-### Question 4: How can our tool be implemented? 
+### Question 4: How can our application be implemented? 
 
 ![chart](images/pic1.png)
 
+The aim of our application is to provide an interactive dashboard that can allow users to have control over how they view the dataset while gaining meaningful insights into the data.
+The target audience would be health advisors who require rapid, highlevel information to guide strategic interventions to deliver improved public health outcomes.
 
-
-
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ## Summary
 
