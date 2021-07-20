@@ -2,12 +2,14 @@
 
 ![Data Health Banner](images/Health-Data-Research-UK-750x500.png)
 
+
 ## Introduction
 
 The aim of this project was to investigate data from the National Notifiable Disease Surveillance System (NNDSS) and establish 
 what trends could be observed 
 For our project we looked at the NNDSS dataset and focused on all diseases by state and years 2015-2020. 
 Using visualization we compared the states by disease category to identify any trends. 
+
 
 ## Structure
 ```
@@ -37,6 +39,7 @@ project
 
 ```
 
+
 ## Usage
 
 ```
@@ -54,13 +57,18 @@ The page was created using:
 - sqlite
 - gnuicorn
 - heroku
+
+Two additional d3 extensions utilised were:
+- D3 Geoprojection (https://github.com/d3/d3-geo)
+- D3 Colour Scales (https://github.com/d3/d3-scale-chromatic)
+
 ```
 
 ## Questions 
 
 1. Which states are experiencing the highest infection rates by disease group?
 2. Which disease groups are occurring most frequently?
-3. Which disease groups are contributing the most to infection rates?
+3. How are the rates progressing over time?
 4. How are the rates progressing over time? 
 
 
@@ -69,20 +77,23 @@ The page was created using:
 |No.|Source|Link|
 | -|-|-|
 |1|National Notifiable Diseases Surveillance System |http://www9.health.gov.au/cda/source/cda-index.cfm|
-|1|National Notifiable Diseases Surveillance System |http://www9.health.gov.au/cda/source/cda-index.cfm|
-
+|1|Australian Sates GeoJSON |https://github.com/tonywr71/GeoJson-Data/blob/master/australian-states.min.geojson|
 
 
 ## Analysis
 
-### Question 1: Which states are experiencing the highest infection rates by disease group? 
+### Question 1: Which states are experiencing the highest infection rates? 
 
 ![chart](images/pic1.png)
 
-The Northern Territory experienced the highest infection rates in Bloodborne Diseases, Gastrointestinal Dieaseses and Vectorborne Diseases across the majority of years. Notably Sexually Transmissable Infections were several magnitudes higher than the rest of Australia.
-Vectorborne disease rates were also high in Queensland and overtook NT in 2020.
-Zoonoses has low infection rates across Australia and it's occurance is effectively limited to Queensland.
+The Northern Territory experienced the highest infection rates in Bloodborne Diseases, Gastrointestinal Dieaseses and Vectorborne Diseases across the majority of years. 
+Notably Sexually Transmissable Infections were several magnitudes higher than the rest of Australia. The Northern Territory's Sexual Health and Bloodborne Viruses Unit (https://health.nt.gov.au/professionals/centre-for-disease-control/cdc-programs-and-units/sexual-health-and-blood-borne-viruses)
+supports the delivery of educational and clinical services across the NT however this data may indicate gaps in these services.
 
+Vectorborne disease rates were also high in Queensland and overtook NT in 2020. These are generally the mosquitoborne Ross River Virus and Dengue Fever and is not an unusual occurance in hot, humid climates.
+
+Zoonoses has low infection rates across Australia and it's occurance is effectively limited to Queensland. Leptospirosis is the key disease in this group and is mainly associated with exposure to rodent urine
+in agricultural workers.
 
 
 ### Question 2: Which disease groups are occurring most frequently? 
@@ -110,7 +121,7 @@ Key diseases from each group were:
 In general disease rates across all groups are decreasing over time. Of the Vaccine Preventable Diseases, 
 Shingles has a constistant trend, whereas Influenza experiences distinctive spikes (2017 and 2019). 2020 experienced a record low of infection rates across Australia
 
-Sexually Transmissable Infections have experienced increases over time, especially Chlamidia. However, in 2020 there was a marked decline infections.
+Sexually Transmissable Infections have experienced increases over time, especially Chlamydia. However, in 2020 there was a marked decline infections.
 
 
 ### Question 4: How are the rates progressing over time? 
