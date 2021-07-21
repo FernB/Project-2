@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Notifiable Infection Rates</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/d3Style.css">
+  </head>
+  <body>
+
+    <!-- navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="/" class="nav-link">
+                <!-- bootstrap glyphicon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                </svg>
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="dash" class="nav-link"> 
+                <!-- bootstrap glyphicon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                  <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+                </svg>
+                Interactive Chart
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="about" class="nav-link">  
+                <!-- bootstrap glyphicon -->      
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>
+                About Us
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row p-5" id="heading">
+        <h1 class="text-light text-center">Explore Notifiable Disease Infection Rates</h1>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-sm-2"> 
+          <h5 class="text-end">
+            <span class="badge bg-secondary">Filter to Explore</span>
+          </h5>
+        </div>
+        <div class="col-sm-1 p-0 m-0">
+          <h6 class="text-end pt-2">Disease Group</h6>
+        </div>
+        <div class="col-sm-2">
+          <select class="form-select" style="width: 300px" id="selectButton"></select>
+        </div>
+        <div class="col-sm-1 p-0 m-0">
+          <h6 class="text-end pt-2">Year</h6>
+        </div>
+        <div class="col-sm-2">
+          <select class="form-select" style="width: 300px" id="selectYear"></select>
+        </div>
+      </div>
+
+      <div class ="row pt-5">
+        <div class="col-sm-6">
+          <h5> 
+            <span class="badge bg-secondary">Click States to Explore</span>
+          </h5>
+        </div>
+        <div class="col-sm-6"> 
+          <h5>
+            <span class="badge bg-secondary">Distribution of Groups</span>
+          </h5>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6"> 
+          <div id="map" class="bg-light p-3">
+            <h6 id="mapsummary">Total Infection Rates per 100,000 population for Bloodborne Diseases in 2015</h6>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div id="bar" class="bg-light"> 
+            <h6 id="barsummary" class="p-3">Disease Group Infection Rates per 100,000 population for NSW in 2015</h6> 
+          </div>
+        </div>
+      </div>
+
+      <div class ="row pt-5">
+        <div class="col-sm-6">
+          <h5> 
+            <span class="badge bg-secondary">Disease Trends</span> 
+          </h5>
+        </div>
+        <div class="col-sm-6">
+          <h5> 
+            <span class="badge bg-secondary">Distribution in States</span> 
+          </h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div id="scatter" class="bg-light"> 
+            <h6 id="linesummary" class="p-3"> Infection Rates per 100,000 population for Bloodborne Diseases in NSW between 2015 and 2020</h6>    
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div id="stackedbar" class="bg-light"> 
+            <h6 id="sbsummary" class="p-3"> Disease Group Infection Rates per 100,000 population in all States in 2015</h6>   
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+    <!-- Footer-->
+    <div id="footer">
+      <blockquote class="blockquote">
+        <p class="mb-0">DATA WILL TALK TO YOU IF YOU'RE WILLING TO LISTEN.</p>
+        <footer class="blockquote-footer">JIM
+          <cite title="Source Title">BERGESON</cite>
+        </footer>
+      </blockquote>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>

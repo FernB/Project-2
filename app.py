@@ -24,9 +24,9 @@ def index():
     return render_template('./index.html')
 
 # graphs page
-@app.route("/home")
+@app.route("/dash")
 def default():
-    return render_template('./home.html')
+    return render_template('./dash.html')
     
  # about page
 @app.route("/about")

@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a href="home" class="nav-link">
+              <a href="/" class="nav-link">
                 <!-- bootstrap glyphicon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
@@ -34,7 +34,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/" class="nav-link"> 
+              <a href="dash" class="nav-link"> 
                 <!-- bootstrap glyphicon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
                   <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
@@ -63,10 +63,11 @@
       <div class="row m-5 p-5">
         <h2 class="text-center">The Data</h2>
         <p> The key source of data was the National Notifiable Diseases Surveillance System: <a href="http://www9.health.gov.au/cda/source/rpt_2.cfm"> http://www9.health.gov.au/cda/source/rpt_2.cfm. </a> This website can generate reports on notified cases by State, Year, Disease Grouping and Disease. </p>
-        <p>This data was selected as the Authors wish to investigate trends in infection rates between States and develop a tool that could be used to guide public health funding</p>
-        <p>Data was obtained from the site using a Python application developed by the Authors. The application utilises the Splinter and Pandas Libraries to scrape data then the SQLAlchemy Libary to store this data in a SQLite Database.</p>
+        <p>This data was selected as the Authors wish to investigate trends in infection rates between States and develop a tool that could guide strategic public health funding</p>
+        <p>Data was obtained from the site using a Python application developed by the Authors. The application utilises the Splinter and Pandas Libraries to scrape data from the website then the SQLAlchemy Libary to store this data in a SQLite Database.</p>
         <p>An SQLAlchemy/Flask application was developed to create an API that could read data from the SQLite database into JavaScript</p>
-        <p>All charts were created and analysis was performed using the D3.js Libary. The charts are desgined to allow users to explore the dataset and compare infection rates by disease grouping, state, year and invidual diseases.</p>
+        <p>All charts were created and analysis was performed using the D3.js Libary. The charts are desgined to allow users to explore the dataset and compare infection rates by disease grouping, state, year and individual diseases.</p>
+        <p>This dataset could be extended by incorporating infection rates by age and sex and other contributing health statistics which would enable reconstructive analysis to identify key risk factors and establish early interventions. </p>
       </div>
       <div class="row m-5 p-5 px-10 mx-10">
         <h2 class="text-center">Other References</h2>

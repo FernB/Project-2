@@ -45,11 +45,6 @@ d3.json("/api/data", function(apidata) {
   var alllocation = apidata.filter(d=>d.Location===locationoption).filter(d=>d.Year===yearoption).filter(function(d) { return d.Location !="Aust" && d.Location !="Last 5yearsmean" });
 
 
-
-    // dtt = d3.map(f, function(d) {return(d.Disease)}).keys();
-  
-
-
   // get states geojson data
   d3.json("/static/data/australian-states.min.geojson", function(data){
   
@@ -163,8 +158,8 @@ d3.json("/api/data", function(apidata) {
 
 
     // line chart margins
-    var marginline = {top: 10, right: 30, bottom: 30, left: 60},
-        widthline = 460 - marginline.left - marginline.right,
+    var marginline = {top: 10, right: 30, bottom: 30, left: 70},
+        widthline = 480 - marginline.left - marginline.right,
         heightline = 400 - marginline.top - marginline.bottom;
 
     // line chart svg
@@ -243,6 +238,18 @@ d3.json("/api/data", function(apidata) {
             .y(function(d) { return yline(+d.Infection_Rate); })
             (d.values)
         });
+
+        // x axis label
+        svgline.append("g")
+          .attr("text-anchor", "middle")
+          .attr("font-size",14)
+          .attr("fill","black")
+          .append("text")
+          .attr("y", -40)
+          .attr("x", -190)
+          .attr("transform","rotate(-90)")
+          .attr("id","xs")
+          .text("Infection Rate per 100,000 Population")
 
 
     // legend for line chart
@@ -381,6 +388,16 @@ d3.json("/api/data", function(apidata) {
     .attr("width", d => xLinearScale(d.value.total_infection))
     .attr("height", yBandScale.bandwidth());
 
+      // y axis label
+      svgbar.attr("text-anchor", "middle")
+      .attr("font-size",14)
+      .attr("fill","black")
+      .append("text")
+      .attr("y", 450)
+      .attr("x", 250)
+      .attr("id","xs")
+      .text("Infection Rate per 100,000 Population")
+
     // initialise bar tooltip
     var bartoolTip = d3.tip()
     .attr("class", "d3-tip")
@@ -405,8 +422,8 @@ d3.json("/api/data", function(apidata) {
 /*  STACKED BAR CHART  */
 
     // set margins and widths of stacked bar svg
-    var marginsb = {top: 10, right: 30, bottom: 30, left: 50},
-        widthsb = 460 - marginsb.left - marginsb.right,
+    var marginsb = {top: 10, right: 30, bottom: 30, left: 80},
+        widthsb = 480 - marginsb.left - marginsb.right,
         heightsb = 400 - marginsb.top - marginsb.bottom;
 
     // append the svg to stacked bar div
@@ -499,6 +516,16 @@ d3.json("/api/data", function(apidata) {
         .on("mouseover", mouseoversb)
         .on("mouseleave", mouseleavesb);
 
+      // y axis label
+        svgsb.attr("text-anchor", "middle")
+        .attr("font-size",14)
+        .attr("fill","black")
+        .append("text")
+        .attr("y", -50)
+        .attr("x", -190)
+        .attr("transform","rotate(-90)")
+        .attr("id","xs")
+        .text("Infection Rate per 100,000 Population")
 
       // append legend svg to stacked bar div
       var legendsb = d3.select("#stackedbar")
