@@ -10,7 +10,7 @@ what trends could be observed.
 
 Data between 2015 and 2020 on infection rates per 100,000 people was extracted from the website, transformed into a comparable dataset and loaded into an SQLite database.
 
-An SQLAclhemy/Flask API was created to allow data to be used in a D3.js web application that was launched on Heroku. https://github.com/FernB/Project-2/deployments/activity_log?environment=australiannotifiablediseases
+An SQLAclhemy/Flask API was created to allow data to be used in a D3.js web application that was launched on Heroku: https://australiannotifiablediseases.herokuapp.com/
 
 The application consists of an interactive dashboard of four visualisations depicting comparisons of infection rates across disease groups, states and territories and years.
 
