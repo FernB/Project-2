@@ -148,7 +148,7 @@ It was also observed that COVID-19 related increased hygiene practices, restrict
 Incorporation of other statistics including infections by age group, socio-economic indexes for areas and other related data into the analysis would enable a reconstructive analysis
 to identify key risk factors and establish early interventions.
   
-This webpage provides a dashboard that can be manipulated by the user to view trends in the infection rates across the States and Territories, through all disease groups and over time.
+This webpage (https://australiannotifiablediseases.herokuapp.com/) provides a dashboard that can be manipulated by the user to view trends in the infection rates across the States and Territories, through all disease groups and over time.
 The filters and interactions can provide a high level overview of the data as well as a more granular analysis. This allows the user to experience a greater control over their interpretation 
 of the data set while still highlighting key areas that require additional interventions.
 
